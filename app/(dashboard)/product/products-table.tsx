@@ -16,7 +16,7 @@ import {
   CardTitle
 } from '@/components/ui/card';
 import { Product } from './product';
-import { SelectProduct } from '@/lib/db';
+// import { SelectProduct } from '@/lib/db';
 import { useRouter } from 'next/navigation';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -26,12 +26,12 @@ export function ProductsTable({
   offset,
   totalProducts
 }: {
-  products: SelectProduct[];
+  products: any[];
   offset: number;
   totalProducts: number;
 }) {
   let router = useRouter();
-  let productsPerPage = 5;
+  let productsPerPage = 10;
 
   function prevPage() {
     router.back();

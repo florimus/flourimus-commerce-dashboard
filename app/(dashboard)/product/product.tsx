@@ -10,22 +10,23 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { MoreHorizontal } from 'lucide-react';
 import { TableCell, TableRow } from '@/components/ui/table';
-import { SelectProduct } from '@/lib/db';
-import { deleteProduct } from './actions';
+import { deleteProduct } from '../actions';
 
-export function Product({ product }: { product: SelectProduct }) {
+export function Product({ product }: { product: any }) {
   return (
     <TableRow>
       <TableCell className="hidden sm:table-cell">
         <Image
           alt="Product image"
-          className="aspect-square rounded-md object-cover"
+          className="aspect-square rounded-md object-cover cursor-pointer"
           height="64"
           src={product.imageUrl}
           width="64"
         />
       </TableCell>
-      <TableCell className="font-medium">{product.name}</TableCell>
+      <TableCell className="font-medium cursor-pointer">
+        {product.name}
+      </TableCell>
       <TableCell>
         <Badge variant="outline" className="capitalize">
           {product.status}
