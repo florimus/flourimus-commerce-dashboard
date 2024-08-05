@@ -1,16 +1,18 @@
 'use client';
 
-import { UserType } from 'core/type';
 import React, { FC } from 'react';
 import { FieldErrors, useForm, UseFormRegister } from 'react-hook-form';
+import Schema, { loginSchema } from './schema';
+import { z } from 'zod';
 
-export interface UserLoginRequestInputType extends Partial<UserType> {}
+export type UserLoginRequestInputType = z.infer<typeof loginSchema>;
 
 interface LoginFormHandleProps {
   register: UseFormRegister<UserLoginRequestInputType>;
   errors: FieldErrors<UserLoginRequestInputType>;
   submit: (event?: React.BaseSyntheticEvent) => Promise<void>;
   disabled: boolean;
+  isValid: boolean;
 }
 
 interface LoginFormProps {}
@@ -19,10 +21,11 @@ const LoginForm: (initial: LoginFormProps) => LoginFormHandleProps = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isLoading }
+    formState: { errors, isLoading, isValid }
   } = useForm<UserLoginRequestInputType>({
     mode: 'onTouched',
-    reValidateMode: 'onChange'
+    reValidateMode: 'onChange',
+    resolver: Schema
   });
 
   const submit = (data: UserLoginRequestInputType) => {
@@ -32,6 +35,7 @@ const LoginForm: (initial: LoginFormProps) => LoginFormHandleProps = () => {
   return {
     register,
     errors,
+    isValid,
     submit: handleSubmit(submit),
     disabled: isLoading
   };

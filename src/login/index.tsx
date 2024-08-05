@@ -5,9 +5,14 @@ import LoginView from './view';
 const Login = () => {
   return (
     <Form>
-      {({ errors, disabled, register }) => {
+      {({ errors, disabled, register, isValid }) => {
         return (
-          <LoginView errors={errors} disabled={disabled} register={register} />
+          <LoginView
+            errors={errors}
+            disabled={disabled}
+            register={register}
+            isValid={isValid}
+          />
         );
       }}
     </Form>
