@@ -15,9 +15,13 @@ interface LoginFormHandleProps {
   isValid: boolean;
 }
 
-interface LoginFormProps {}
+interface LoginFormProps {
+  submit: (email: string, password: string) => Promise<void>;
+}
 
-const LoginForm: (initial: LoginFormProps) => LoginFormHandleProps = () => {
+const LoginForm: (initial: LoginFormProps) => LoginFormHandleProps = (
+  initial
+) => {
   const {
     register,
     handleSubmit,
@@ -29,7 +33,7 @@ const LoginForm: (initial: LoginFormProps) => LoginFormHandleProps = () => {
   });
 
   const submit = (data: UserLoginRequestInputType) => {
-    console.log(data);
+    initial.submit(data.email, data.password);
   };
 
   return {
@@ -42,11 +46,12 @@ const LoginForm: (initial: LoginFormProps) => LoginFormHandleProps = () => {
 };
 
 interface FormProps {
+  submit: (email: string, password: string) => Promise<void>;
   children: (args: LoginFormHandleProps) => React.ReactNode;
 }
 
-const Form: FC<FormProps> = ({ children }) => {
-  const formProps = LoginForm({});
+const Form: FC<FormProps> = ({ children, submit }) => {
+  const formProps = LoginForm({ submit });
   return <form onSubmit={formProps?.submit}>{children(formProps)}</form>;
 };
 

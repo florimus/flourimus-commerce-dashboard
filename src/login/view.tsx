@@ -29,7 +29,6 @@ const LoginView: FC<LoginViewProps> = ({
   register
 }) => {
   const { email, password } = errors;
-  console.log({ isValid });
   return (
     <div className="min-h-screen flex justify-center items-center p-8">
       <Card className="w-full max-w-sm py-10">
