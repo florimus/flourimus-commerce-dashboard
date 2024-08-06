@@ -19,26 +19,33 @@ import { Product } from './product';
 import { useRouter } from 'next/navigation';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { PageInfoType, ProductType } from 'core/type';
+import { FC } from 'react';
 
-export function ProductsTable({
+interface ProductsTableProps {
+  products: ProductType[];
+  pageInfo: Partial<PageInfoType>;
+  pagesize: number;
+  page: number;
+}
+
+export const ProductsTable: FC<ProductsTableProps> = ({
   products,
-  offset,
-  totalProducts
-}: {
-  products: any[];
-  offset: number;
-  totalProducts: number;
-}) {
+  pageInfo,
+  pagesize,
+  page
+}) => {
   let router = useRouter();
-  let productsPerPage = 10;
 
   function prevPage() {
     router.back();
   }
 
   function nextPage() {
-    router.push(`product/?offset=${offset}`, { scroll: false });
+    // router.push(`product/?offset=${offset}`, { scroll: false });
   }
+
+  console.log(pagesize * page + 1);
 
   return (
     <Card>
@@ -56,12 +63,15 @@ export function ProductsTable({
                 <span>Image</span>
               </TableHead>
               <TableHead>Name</TableHead>
-              <TableHead>Status</TableHead>
+              <TableHead className="hidden md:table-cell">Unique ID</TableHead>
+              <TableHead className="hidden md:table-cell">Brand</TableHead>
+              <TableHead className="hidden md:table-cell">Category</TableHead>
+              <TableHead className="hidden md:table-cell">Status</TableHead>
               <TableHead className="hidden md:table-cell">Price</TableHead>
+              <TableHead className="hidden md:table-cell">Variants</TableHead>
               <TableHead className="hidden md:table-cell">
-                Total Sales
+                Created date
               </TableHead>
-              <TableHead className="hidden md:table-cell">Created at</TableHead>
               <TableHead>
                 <span>Actions</span>
               </TableHead>
@@ -69,7 +79,7 @@ export function ProductsTable({
           </TableHeader>
           <TableBody>
             {products.map((product) => (
-              <Product key={product.id} product={product} />
+              <Product key={product._id} product={product} />
             ))}
           </TableBody>
         </Table>
@@ -79,9 +89,10 @@ export function ProductsTable({
           <div className="text-xs text-muted-foreground">
             Showing{' '}
             <strong>
-              {Math.min(offset - productsPerPage, totalProducts) + 1}-{offset}
+              {pagesize * page + 1} -{' '}
+              {pagesize * page + pageInfo.currentMatchs!}
             </strong>{' '}
-            of <strong>{totalProducts}</strong> products
+            of <strong>{pageInfo?.totalMatches}</strong> products
           </div>
           <div className="flex">
             <Button
@@ -89,7 +100,7 @@ export function ProductsTable({
               variant="ghost"
               size="sm"
               type="submit"
-              disabled={offset === productsPerPage}
+              disabled={pageInfo?.isStart}
             >
               <ChevronLeft className="mr-2 h-4 w-4" />
               Prev
@@ -99,7 +110,7 @@ export function ProductsTable({
               variant="ghost"
               size="sm"
               type="submit"
-              disabled={offset + productsPerPage > totalProducts}
+              disabled={pageInfo?.isEnd}
             >
               Next
               <ChevronRight className="ml-2 h-4 w-4" />
@@ -109,4 +120,4 @@ export function ProductsTable({
       </CardFooter>
     </Card>
   );
-}
+};

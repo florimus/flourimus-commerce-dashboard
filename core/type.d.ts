@@ -25,3 +25,42 @@ export interface TokenResponseType extends APIErrorResponseType {
   access: string;
   refresh: string;
 }
+
+export interface PageInfoType {
+  currentMatchs: number;
+  isEnd: boolean;
+  isStart: boolean;
+  totalMatches: number;
+  totalPages: number;
+}
+
+export interface ProductVariantsType {
+  _id: string;
+}
+
+export interface ProductPriceType {
+  sellPrice: number;
+}
+
+export interface ProductType {
+  _id: string;
+  name: string;
+  medias: string[];
+  category?: string;
+  brand?: string;
+  haveVariants: boolean;
+  isVariant: boolean;
+  isSellable: boolean;
+  variantInfo: string[];
+  createdAt: string;
+  updatedAt: string;
+  isActive: boolean;
+  variants?: Array<Partial<ProductVariantsType>>;
+  price?: Partial<ProductPriceType>;
+  availableStocks: number;
+}
+
+export interface ProductListType extends APIErrorResponseType {
+  products: ProductType[];
+  pageInfo: Partial<PageInfoType>;
+}
