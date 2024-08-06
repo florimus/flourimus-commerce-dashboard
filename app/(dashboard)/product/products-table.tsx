@@ -38,7 +38,7 @@ export function ProductsTable({
   }
 
   function nextPage() {
-    router.push(`/?offset=${offset}`, { scroll: false });
+    router.push(`product/?offset=${offset}`, { scroll: false });
   }
 
   return (
@@ -54,7 +54,7 @@ export function ProductsTable({
           <TableHeader>
             <TableRow>
               <TableHead className="hidden w-[100px] sm:table-cell">
-                <span className="sr-only">Image</span>
+                <span>Image</span>
               </TableHead>
               <TableHead>Name</TableHead>
               <TableHead>Status</TableHead>
@@ -64,7 +64,7 @@ export function ProductsTable({
               </TableHead>
               <TableHead className="hidden md:table-cell">Created at</TableHead>
               <TableHead>
-                <span className="sr-only">Actions</span>
+                <span>Actions</span>
               </TableHead>
             </TableRow>
           </TableHeader>

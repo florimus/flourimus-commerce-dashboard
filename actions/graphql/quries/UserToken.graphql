@@ -1,0 +1,12 @@
+query UserToken($email: String, $password: String) {
+  token(
+    tokenRequestInput: {
+      email: $email
+      password: $password
+      grandType: "password"
+    }
+  ) {
+    access
+    refresh
+  }
+}
