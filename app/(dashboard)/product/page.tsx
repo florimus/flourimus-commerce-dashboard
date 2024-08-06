@@ -6,8 +6,9 @@ import { ProductsTable } from './products-table';
 export default async function ProductsPage({
   searchParams
 }: {
-  searchParams: { q: string; offset: string };
+  searchParams: { q: string; offset: string; tab: string };
 }) {
+  const tab = searchParams?.tab ?? 'all';
   const search = searchParams.q ?? '';
   const offset = searchParams.offset ?? 0;
   const { products, newOffset, totalProducts } = {

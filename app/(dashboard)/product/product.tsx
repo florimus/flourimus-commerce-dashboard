@@ -18,9 +18,9 @@ export function Product({ product }: { product: any }) {
         <Image
           alt="Product image"
           className="aspect-square rounded-md object-cover cursor-pointer"
-          height="64"
+          height="48"
           src={product.imageUrl}
-          width="64"
+          width="48"
         />
       </TableCell>
       <TableCell className="font-medium cursor-pointer">
