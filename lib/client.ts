@@ -3,8 +3,10 @@ import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
 import { cookies } from 'next/headers';
 import { setContext } from '@apollo/client/link/context';
 
+const serviceUrl = process.env.API_URL;
+
 const httpLink = createHttpLink({
-  uri: 'https://flourimus-commerce-core.onrender.com/graphql'
+  uri: serviceUrl
 });
 
 const authLink = setContext((_, { headers }) => {

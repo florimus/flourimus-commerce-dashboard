@@ -2,23 +2,9 @@
 
 import { cookie } from '@/constants/cookieConstants';
 import { client } from '@/lib/client';
+import { UserTokenDocument } from '@/lib/graphql/graphql';
 import { gql } from '@apollo/client';
 import { cookies } from 'next/headers';
-
-const createTokenQuery = gql`
-  query Token {
-    token(
-      tokenRequestInput: {
-        email: "john.doe@example.com"
-        password: "password123"
-        grandType: "password"
-      }
-    ) {
-      access
-      refresh
-    }
-  }
-`;
 
 export const getTokenWithEmailAndPassword: (
   email: string,
@@ -28,13 +14,12 @@ export const getTokenWithEmailAndPassword: (
   const cookieStore = cookies();
   try {
     const { data } = await client.query({
-      query: createTokenQuery,
+      query: gql`
+        ${UserTokenDocument}
+      `,
       variables: {
-        tokenInput: {
-          email,
-          password,
-          type
-        }
+        email,
+        password
       }
     });
     const { token } = data;
@@ -45,7 +30,7 @@ export const getTokenWithEmailAndPassword: (
     return token;
   } catch (error: any) {
     return {
-      code: error.graphQLErrors?.[0]?.extensions.code || 'INTERNAL_SERVER_ERROR'
+      message: error?.cause?.message || 'INTERNAL_SERVER_ERROR'
     } as any;
   }
 };
