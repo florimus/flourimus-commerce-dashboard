@@ -2,15 +2,18 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { File, PlusCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ProductsTable } from './products-table';
+import { paginationConstants } from '@/constants/constants';
 
 export default async function ProductsPage({
   searchParams
 }: {
-  searchParams: { q: string; offset: string; tab: string };
+  searchParams: { q: string; p: number; tab: string; s: number; d: string };
 }) {
   const tab = searchParams?.tab ?? 'all';
   const search = searchParams.q ?? '';
-  const offset = searchParams.offset ?? 0;
+  const page = searchParams.p ?? 0;
+  const size = searchParams.s ?? paginationConstants.limits[1];
+  const sortBy = searchParams.d ?? paginationConstants.directions[0];
   const { products, newOffset, totalProducts } = {
     products: [
       {
@@ -107,6 +110,8 @@ export default async function ProductsPage({
     newOffset: 1 * 10,
     totalProducts: 120
   };
+
+  console.log(tab, search, page, size, sortBy);
 
   return (
     <Tabs defaultValue="all">
