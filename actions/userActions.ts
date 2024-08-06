@@ -23,33 +23,6 @@ export const getTokenWithEmailAndPassword: (
         password
       }
     });
-    await client.query({
-      query: gql`
-        ${UserTokenDocument}
-      `,
-      variables: {
-        email,
-        password
-      }
-    });
-    await client.query({
-      query: gql`
-        ${UserTokenDocument}
-      `,
-      variables: {
-        email,
-        password
-      }
-    });
-    await client.query({
-      query: gql`
-        ${UserTokenDocument}
-      `,
-      variables: {
-        email,
-        password
-      }
-    });
     const { token } = data;
     if (token?.access && token?.refresh) {
       cookieStore.set(cookie.accessToken, token?.access);

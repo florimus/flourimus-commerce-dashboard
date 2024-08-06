@@ -779,6 +779,13 @@ export type WarehouseStatusChangeResponse = {
   success?: Maybe<Scalars['Boolean']['output']>;
 };
 
+export type ProductListQueryVariables = Exact<{
+  productListInput?: InputMaybe<ProductListInput>;
+}>;
+
+
+export type ProductListQuery = { __typename?: 'Query', productList?: { __typename?: 'ProductList', products?: Array<{ __typename?: 'Product', _id?: string | null, name?: string | null, medias?: Array<string | null> | null, category?: string | null, brand?: string | null, haveVariants?: boolean | null, isVariant?: boolean | null, isSellable?: boolean | null, variantInfo?: Array<string | null> | null, createdAt?: string | null, updatedAt?: string | null, isActive?: boolean | null, availableStocks?: number | null, variants?: Array<{ __typename?: 'Product', _id?: string | null } | null> | null, price?: { __typename?: 'ProductPrice', sellPrice?: number | null } | null } | null> | null, pageInfo?: { __typename?: 'ProductPageInfo', currentMatchs?: number | null, isEnd?: boolean | null, isStart?: boolean | null, totalMatches?: number | null, totalPages?: number | null } | null } | null };
+
 export type UserTokenQueryVariables = Exact<{
   email?: InputMaybe<Scalars['String']['input']>;
   password?: InputMaybe<Scalars['String']['input']>;
@@ -802,6 +809,40 @@ export class TypedDocumentString<TResult, TVariables>
   }
 }
 
+export const ProductListDocument = new TypedDocumentString(`
+    query ProductList($productListInput: ProductListInput) {
+  productList(productListInput: $productListInput) {
+    products {
+      _id
+      name
+      medias
+      category
+      brand
+      haveVariants
+      isVariant
+      isSellable
+      variantInfo
+      createdAt
+      updatedAt
+      isActive
+      variants {
+        _id
+      }
+      price {
+        sellPrice
+      }
+      availableStocks
+    }
+    pageInfo {
+      currentMatchs
+      isEnd
+      isStart
+      totalMatches
+      totalPages
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<ProductListQuery, ProductListQueryVariables>;
 export const UserTokenDocument = new TypedDocumentString(`
     query UserToken($email: String, $password: String) {
   token(

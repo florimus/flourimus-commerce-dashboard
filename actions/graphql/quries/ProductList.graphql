@@ -1,0 +1,32 @@
+query ProductList($productListInput: ProductListInput) {
+  productList(productListInput: $productListInput) {
+    products {
+      _id
+      name
+      medias
+      category
+      brand
+      haveVariants
+      isVariant
+      isSellable
+      variantInfo
+      createdAt
+      updatedAt
+      isActive
+      variants {
+        _id
+      }
+      price {
+        sellPrice
+      }
+      availableStocks
+    }
+    pageInfo {
+      currentMatchs
+      isEnd
+      isStart
+      totalMatches
+      totalPages
+    }
+  }
+}

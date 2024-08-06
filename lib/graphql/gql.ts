@@ -14,9 +14,14 @@ import * as types from './graphql';
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
+    "query ProductList($productListInput: ProductListInput) {\n  productList(productListInput: $productListInput) {\n    products {\n      _id\n      name\n      medias\n      category\n      brand\n      haveVariants\n      isVariant\n      isSellable\n      variantInfo\n      createdAt\n      updatedAt\n      isActive\n      variants {\n        _id\n      }\n      price {\n        sellPrice\n      }\n      availableStocks\n    }\n    pageInfo {\n      currentMatchs\n      isEnd\n      isStart\n      totalMatches\n      totalPages\n    }\n  }\n}": types.ProductListDocument,
     "query UserToken($email: String, $password: String) {\n  token(\n    tokenRequestInput: {email: $email, password: $password, grandType: \"password\"}\n  ) {\n    access\n    refresh\n  }\n}": types.UserTokenDocument,
 };
 
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "query ProductList($productListInput: ProductListInput) {\n  productList(productListInput: $productListInput) {\n    products {\n      _id\n      name\n      medias\n      category\n      brand\n      haveVariants\n      isVariant\n      isSellable\n      variantInfo\n      createdAt\n      updatedAt\n      isActive\n      variants {\n        _id\n      }\n      price {\n        sellPrice\n      }\n      availableStocks\n    }\n    pageInfo {\n      currentMatchs\n      isEnd\n      isStart\n      totalMatches\n      totalPages\n    }\n  }\n}"): typeof import('./graphql').ProductListDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
