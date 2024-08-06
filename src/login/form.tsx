@@ -1,39 +1,64 @@
 'use client';
 
-import React, { FC } from 'react';
+import React, { FC, FormEventHandler, useState } from 'react';
 import { FieldErrors, useForm, UseFormRegister } from 'react-hook-form';
 import Schema, { loginSchema } from './schema';
 import { z } from 'zod';
+import { TokenResponseType } from 'core/type';
+import errorCodes from './errorCodes';
+import { useRouter } from 'next/navigation';
 
 export type UserLoginRequestInputType = z.infer<typeof loginSchema>;
 
 interface LoginFormHandleProps {
   register: UseFormRegister<UserLoginRequestInputType>;
   errors: FieldErrors<UserLoginRequestInputType>;
-  submit: (event?: React.BaseSyntheticEvent) => Promise<void>;
+  submit: FormEventHandler<HTMLFormElement>;
   disabled: boolean;
   isValid: boolean;
+  submitting: boolean;
 }
 
 interface LoginFormProps {
-  submit: (email: string, password: string) => Promise<void>;
+  submit: (email: string, password: string) => Promise<TokenResponseType>;
 }
 
 const LoginForm: (initial: LoginFormProps) => LoginFormHandleProps = (
-  initial
+  initial: LoginFormProps
 ) => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isLoading, isValid }
+    formState: { errors, isLoading, isValid },
+    setError
   } = useForm<UserLoginRequestInputType>({
     mode: 'onTouched',
     reValidateMode: 'onChange',
     resolver: Schema
   });
 
-  const submit = (data: UserLoginRequestInputType) => {
-    initial.submit(data.email, data.password);
+  const [submitting, setSubmitting] = useState<boolean>(false);
+
+  const router = useRouter();
+
+  const submit = async (data: UserLoginRequestInputType) => {
+    setSubmitting(true);
+    const response: TokenResponseType = await initial.submit(
+      data.email,
+      data.password
+    );
+    if (response?.error) {
+      setSubmitting(false);
+      const error = errorCodes?.[response?.error] || {
+        field: 'email',
+        message: 'Network busy'
+      };
+      setError(error.field, {
+        message: error.message
+      });
+    } else {
+      router.push('/product');
+    }
   };
 
   return {
@@ -41,12 +66,13 @@ const LoginForm: (initial: LoginFormProps) => LoginFormHandleProps = (
     errors,
     isValid,
     submit: handleSubmit(submit),
-    disabled: isLoading
+    disabled: isLoading,
+    submitting
   };
 };
 
 interface FormProps {
-  submit: (email: string, password: string) => Promise<void>;
+  submit: (email: string, password: string) => Promise<TokenResponseType>;
   children: (args: LoginFormHandleProps) => React.ReactNode;
 }
 

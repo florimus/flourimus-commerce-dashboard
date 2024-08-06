@@ -16,3 +16,12 @@ export interface UserType {
   metaStatus?: string;
   token?: string;
 }
+
+export interface APIErrorResponseType {
+  error?: string;
+}
+
+export interface TokenResponseType extends APIErrorResponseType {
+  access: string;
+  refresh: string;
+}

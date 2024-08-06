@@ -6,23 +6,19 @@ import LoginView from './view';
 
 const Login = () => {
   const handleLogin = async (email: string, password: string) => {
-    const response = await getTokenWithEmailAndPassword(
-      email,
-      password,
-      'password'
-    );
-    console.log(response);
+    return await getTokenWithEmailAndPassword(email, password, 'password');
   };
 
   return (
     <Form submit={handleLogin}>
-      {({ errors, disabled, register, isValid }) => {
+      {({ errors, disabled, register, isValid, submitting }) => {
         return (
           <LoginView
             errors={errors}
             disabled={disabled}
             register={register}
             isValid={isValid}
+            submitting={submitting}
           />
         );
       }}

@@ -21,13 +21,15 @@ interface LoginViewProps {
   errors: FieldErrors<UserLoginRequestInputType>;
   disabled: boolean;
   isValid: boolean;
+  submitting: boolean;
 }
 
 const LoginView: FC<LoginViewProps> = ({
   disabled,
   errors,
   isValid,
-  register
+  register,
+  submitting
 }) => {
   const { email, password } = errors;
   return (
@@ -65,13 +67,17 @@ const LoginView: FC<LoginViewProps> = ({
             disabled={disabled || !isValid}
             className="w-full"
           >
-            <Image
-              src={'/loading.webp'}
-              width={28}
-              height={28}
-              alt="loading"
-              className="overflow-hidden rounded-full"
-            />
+            {submitting ? (
+              <Image
+                src={'/loading.webp'}
+                width={28}
+                height={28}
+                alt="loading"
+                className="overflow-hidden rounded-full"
+              />
+            ) : (
+              'Login with Credintials'
+            )}
           </Button>
         </CardContent>
         <CardFooter>
