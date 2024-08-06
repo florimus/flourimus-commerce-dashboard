@@ -14,6 +14,7 @@ import { FC } from 'react';
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
 import { UserLoginRequestInputType } from './form';
 import { Sheet, SheetDescription } from '@/components/ui/sheet';
+import Image from 'next/image';
 
 interface LoginViewProps {
   register: UseFormRegister<UserLoginRequestInputType>;
@@ -64,7 +65,13 @@ const LoginView: FC<LoginViewProps> = ({
             disabled={disabled || !isValid}
             className="w-full"
           >
-            Login with Credintials
+            <Image
+              src={'/loading.webp'}
+              width={28}
+              height={28}
+              alt="loading"
+              className="overflow-hidden rounded-full"
+            />
           </Button>
         </CardContent>
         <CardFooter>
