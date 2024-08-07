@@ -11,3 +11,23 @@ export function getTime(dateString: string) {
     'YYYY MMMM Do, h:mm A'
   );
 }
+
+export function populateSearchParams(
+  searchParams: { [key: string]: string },
+  param: string,
+  value: string,
+  options?: {
+    resetPage?: boolean;
+    resetSearch?: boolean;
+  }
+) {
+  const searchParam = new URLSearchParams(searchParams);
+  searchParam.set(param, value);
+  if (options?.resetPage) {
+    searchParam.delete('p');
+  }
+  if (options?.resetSearch) {
+    searchParam.delete('q');
+  }
+  return searchParam.toString();
+}

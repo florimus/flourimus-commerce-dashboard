@@ -26,26 +26,6 @@ export default async function ProductsPage({
     'product'
   );
 
-  const handleChangeParams = async (
-    param: string,
-    value: string,
-    options?: {
-      resetPage?: boolean;
-      resetSearch?: boolean;
-    }
-  ) => {
-    'use server';
-    const searchParam = new URLSearchParams(searchParams);
-    searchParam.set(param, value);
-    if (options?.resetPage) {
-      searchParam.delete('p');
-    }
-    if (options?.resetSearch) {
-      searchParam.delete('q');
-    }
-    return searchParam.toString();
-  };
-
   const isNotEmpty =
     Array.isArray(productListResponse?.products) &&
     productListResponse?.products?.length > 0;
@@ -54,7 +34,7 @@ export default async function ProductsPage({
     <Product.ProductList
       products={productListResponse?.products}
       pageInfo={productListResponse?.pageInfo}
-      handleChangeParams={handleChangeParams}
+      searchParams={searchParams}
       pagesize={size}
       page={page}
       tab={tab}

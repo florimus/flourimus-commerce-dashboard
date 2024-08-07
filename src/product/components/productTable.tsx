@@ -21,24 +21,20 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { PageInfoType, ProductType } from 'core/type';
 import { FC } from 'react';
+import { populateSearchParams } from '@/lib/utils';
 
 interface ProductsTableProps {
   products: ProductType[];
   pageInfo: Partial<PageInfoType>;
-  handleChangeParams: (
-    param: string,
-    value: string,
-    options?: {
-      resetPage?: boolean;
-      resetSearch?: boolean;
-    }
-  ) => Promise<string>;
+  startTransition: any;
+  searchParams: { q: string; p: string; tab: string; s: string; d: string };
   pagesize: number;
   page: number;
 }
 
 export const ProductsTable: FC<ProductsTableProps> = ({
-  handleChangeParams,
+  searchParams,
+  startTransition,
   products,
   pageInfo,
   pagesize,
@@ -51,8 +47,10 @@ export const ProductsTable: FC<ProductsTableProps> = ({
   }
 
   async function nextPage() {
-    const params = await handleChangeParams('p', `${page + 1}`);
-    router.push(`/product?${params}`, { scroll: false });
+    const params = populateSearchParams(searchParams, 'p', `${page + 1}`);
+    startTransition(() => {
+      router.push(`/product?${params}`, { scroll: false });
+    });
   }
 
   return (

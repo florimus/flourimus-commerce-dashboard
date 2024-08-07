@@ -4,20 +4,16 @@ import { File, PlusCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ProductsTable } from '../components/productTable';
 import { PageInfoType, ProductType } from 'core/type';
-import { FC } from 'react';
+import { FC, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
+import Loader from '@/components/ui/loader';
+import { Card } from '@/components/ui/card';
+import { populateSearchParams } from '@/lib/utils';
 
 interface ProductListProps {
   products: ProductType[];
   pageInfo: Partial<PageInfoType>;
-  handleChangeParams: (
-    param: string,
-    value: string,
-    options?: {
-      resetPage?: boolean;
-      resetSearch?: boolean;
-    }
-  ) => Promise<string>;
+  searchParams: { q: string; p: string; tab: string; s: string; d: string };
   pagesize: number;
   page: number;
   tab: string;
@@ -27,16 +23,20 @@ const ProductList: FC<ProductListProps> = ({
   products,
   pageInfo,
   pagesize,
-  handleChangeParams,
+  searchParams,
   page,
   tab
 }) => {
+  const [isPending, startTransition] = useTransition();
   const router = useRouter();
+
   async function handleChangeTab(tab: string) {
-    const params = await handleChangeParams('tab', tab, {
+    const params = populateSearchParams(searchParams, 'tab', tab, {
       resetPage: true
     });
-    router.push(`/product?${params}`, { scroll: false });
+    startTransition(() => {
+      router.push(`/product?${params}`, { scroll: false });
+    });
   }
 
   return (
@@ -71,15 +71,22 @@ const ProductList: FC<ProductListProps> = ({
           </Button>
         </div>
       </div>
-      <TabsContent value={tab}>
-        <ProductsTable
-          products={products}
-          pageInfo={pageInfo}
-          pagesize={pagesize}
-          page={page}
-          handleChangeParams={handleChangeParams}
-        />
-      </TabsContent>
+      {isPending ? (
+        <Card>
+          <Loader />
+        </Card>
+      ) : (
+        <TabsContent value={tab}>
+          <ProductsTable
+            products={products}
+            pageInfo={pageInfo}
+            pagesize={pagesize}
+            page={page}
+            searchParams={searchParams}
+            startTransition={startTransition}
+          />
+        </TabsContent>
+      )}
     </Tabs>
   );
 };
