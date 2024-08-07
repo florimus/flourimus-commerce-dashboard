@@ -2,7 +2,6 @@ import { getProducts } from '@/actions/catelogueActions';
 import { paginationConstants } from '@/constants/constants';
 import Product from '@/src/product';
 import { ProductListType } from 'core/type';
-import { redirect } from 'next/navigation';
 
 export default async function ProductsPage({
   searchParams

@@ -1,3 +1,5 @@
 import ProductList from './view/productList';
 
-export default { ProductList };
+const exports = { ProductList };
+
+export default exports;
