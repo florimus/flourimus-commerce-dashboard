@@ -14,6 +14,17 @@ body::-webkit-scrollbar {
   display: none;
 }
 
+.loader {
+  border-top-color: #000000;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

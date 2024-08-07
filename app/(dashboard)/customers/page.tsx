@@ -6,7 +6,7 @@ import {
   CardTitle
 } from '@/components/ui/card';
 
-export default function CustomersPage() {
+export default async function CustomersPage() {
   return (
     <Card>
       <CardHeader>
