@@ -35,8 +35,7 @@ const ProductList: FC<ProductListProps> = ({
 
   async function handleChangeTab(tab: string) {
     const params = await handleChangeParams('tab', tab, {
-      resetPage: true,
-      resetSearch: true
+      resetPage: true
     });
     router.push(`/product?${params}`, { scroll: false });
   }

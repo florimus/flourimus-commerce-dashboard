@@ -21,7 +21,6 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { PageInfoType, ProductType } from 'core/type';
 import { FC } from 'react';
-import { Input } from '@/components/ui/input';
 
 interface ProductsTableProps {
   products: ProductType[];
