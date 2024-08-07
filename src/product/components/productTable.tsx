@@ -21,31 +21,40 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { PageInfoType, ProductType } from 'core/type';
 import { FC } from 'react';
+import { Input } from '@/components/ui/input';
 
 interface ProductsTableProps {
   products: ProductType[];
   pageInfo: Partial<PageInfoType>;
+  handleChangeParams: (
+    param: string,
+    value: string,
+    options?: {
+      resetPage?: boolean;
+      resetSearch?: boolean;
+    }
+  ) => Promise<string>;
   pagesize: number;
   page: number;
 }
 
 export const ProductsTable: FC<ProductsTableProps> = ({
+  handleChangeParams,
   products,
   pageInfo,
   pagesize,
   page
 }) => {
-  let router = useRouter();
+  const router = useRouter();
 
   function prevPage() {
     router.back();
   }
 
-  function nextPage() {
-    // router.push(`product/?offset=${offset}`, { scroll: false });
+  async function nextPage() {
+    const params = await handleChangeParams('p', `${page + 1}`);
+    router.push(`/product?${params}`, { scroll: false });
   }
-
-  console.log(pagesize * page + 1);
 
   return (
     <Card>
@@ -59,7 +68,7 @@ export const ProductsTable: FC<ProductsTableProps> = ({
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="hidden w-[100px] sm:table-cell">
+              <TableHead className="w-[100px] sm:table-cell">
                 <span>Image</span>
               </TableHead>
               <TableHead>Name</TableHead>
@@ -78,45 +87,48 @@ export const ProductsTable: FC<ProductsTableProps> = ({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {products.map((product) => (
-              <Product key={product._id} product={product} />
-            ))}
+            {Array.isArray(products) &&
+              products.map((product) => (
+                <Product key={product._id} product={product} />
+              ))}
           </TableBody>
         </Table>
       </CardContent>
       <CardFooter>
-        <form className="flex items-center w-full justify-between">
-          <div className="text-xs text-muted-foreground">
-            Showing{' '}
-            <strong>
-              {pagesize * page + 1} -{' '}
-              {pagesize * page + pageInfo.currentMatchs!}
-            </strong>{' '}
-            of <strong>{pageInfo?.totalMatches}</strong> products
-          </div>
-          <div className="flex">
-            <Button
-              formAction={prevPage}
-              variant="ghost"
-              size="sm"
-              type="submit"
-              disabled={pageInfo?.isStart}
-            >
-              <ChevronLeft className="mr-2 h-4 w-4" />
-              Prev
-            </Button>
-            <Button
-              formAction={nextPage}
-              variant="ghost"
-              size="sm"
-              type="submit"
-              disabled={pageInfo?.isEnd}
-            >
-              Next
-              <ChevronRight className="ml-2 h-4 w-4" />
-            </Button>
-          </div>
-        </form>
+        {pageInfo && (
+          <form className="flex items-center w-full justify-between">
+            <div className="text-xs text-muted-foreground">
+              Showing{' '}
+              <strong>
+                {pagesize * page + 1} -{' '}
+                {pagesize * page + pageInfo?.currentMatchs!}
+              </strong>{' '}
+              of <strong>{pageInfo?.totalMatches}</strong> products
+            </div>
+            <div className="flex">
+              <Button
+                formAction={prevPage}
+                variant="ghost"
+                size="sm"
+                type="submit"
+                disabled={pageInfo?.isStart}
+              >
+                <ChevronLeft className="mr-2 h-4 w-4" />
+                Prev
+              </Button>
+              <Button
+                formAction={nextPage}
+                variant="ghost"
+                size="sm"
+                type="submit"
+                disabled={pageInfo?.isEnd}
+              >
+                Next
+                <ChevronRight className="ml-2 h-4 w-4" />
+              </Button>
+            </div>
+          </form>
+        )}
       </CardFooter>
     </Card>
   );

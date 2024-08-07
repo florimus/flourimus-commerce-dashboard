@@ -5,29 +5,57 @@ import { Button } from '@/components/ui/button';
 import { ProductsTable } from '../components/productTable';
 import { PageInfoType, ProductType } from 'core/type';
 import { FC } from 'react';
+import { useRouter } from 'next/navigation';
 
 interface ProductListProps {
   products: ProductType[];
   pageInfo: Partial<PageInfoType>;
+  handleChangeParams: (
+    param: string,
+    value: string,
+    options?: {
+      resetPage?: boolean;
+      resetSearch?: boolean;
+    }
+  ) => Promise<string>;
   pagesize: number;
   page: number;
+  tab: string;
 }
 
 const ProductList: FC<ProductListProps> = ({
   products,
   pageInfo,
   pagesize,
-  page
+  handleChangeParams,
+  page,
+  tab
 }) => {
+  const router = useRouter();
+
+  async function handleChangeTab(tab: string) {
+    const params = await handleChangeParams('tab', tab, {
+      resetPage: true,
+      resetSearch: true
+    });
+    router.push(`/product?${params}`, { scroll: false });
+  }
+
   return (
-    <Tabs defaultValue="all">
+    <Tabs defaultValue={tab || 'ALL'}>
       <div className="flex items-center">
         <TabsList>
-          <TabsTrigger value="all">All</TabsTrigger>
-          <TabsTrigger value="active">Active</TabsTrigger>
-          <TabsTrigger value="draft">Draft</TabsTrigger>
-          <TabsTrigger value="archived" className="hidden sm:flex">
-            Archived
+          <TabsTrigger onClick={() => handleChangeTab('ALL')} value="ALL">
+            All
+          </TabsTrigger>
+          <TabsTrigger onClick={() => handleChangeTab('ACTIVE')} value="ACTIVE">
+            Active
+          </TabsTrigger>
+          <TabsTrigger
+            onClick={() => handleChangeTab('INACTIVE')}
+            value="INACTIVE"
+          >
+            Draft
           </TabsTrigger>
         </TabsList>
         <div className="ml-auto flex items-center gap-2">
@@ -45,12 +73,13 @@ const ProductList: FC<ProductListProps> = ({
           </Button>
         </div>
       </div>
-      <TabsContent value="all">
+      <TabsContent value={tab}>
         <ProductsTable
           products={products}
           pageInfo={pageInfo}
           pagesize={pagesize}
           page={page}
+          handleChangeParams={handleChangeParams}
         />
       </TabsContent>
     </Tabs>
