@@ -32,7 +32,6 @@ const ProductList: FC<ProductListProps> = ({
   tab
 }) => {
   const router = useRouter();
-
   async function handleChangeTab(tab: string) {
     const params = await handleChangeParams('tab', tab, {
       resetPage: true
