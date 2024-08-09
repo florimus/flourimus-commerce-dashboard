@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 import Loader from '@/components/ui/loader';
 import { Card } from '@/components/ui/card';
 import { populateSearchParams } from '@/lib/utils';
+import Link from 'next/link';
 
 interface ProductListProps {
   products: ProductType[];
@@ -63,12 +64,14 @@ const ProductList: FC<ProductListProps> = ({
               Export
             </span>
           </Button>
-          <Button size="sm" className="h-8 gap-1">
-            <PlusCircle className="h-3.5 w-3.5" />
-            <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-              Add Product
-            </span>
-          </Button>
+          <Link href={'/product/create'}>
+            <Button size="sm" className="h-8 gap-1">
+              <PlusCircle className="h-3.5 w-3.5" />
+              <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                Add Product
+              </span>
+            </Button>
+          </Link>
         </div>
       </div>
       {isPending ? (
