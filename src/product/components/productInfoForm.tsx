@@ -1,15 +1,35 @@
+'use client';
+
 import { CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import Options from '@/components/ui/options';
+import { Control, FieldErrors, UseFormRegister } from 'react-hook-form';
+import { ProductCreateInputForm } from './productCreate/form';
 import TextArea from '@/components/ui/textarea';
 import TextEditor from '@/components/ui/texteditor';
 import Toggle from '@/components/ui/toggle';
 import Image from 'next/image';
 import { FC } from 'react';
 
-interface ProductCreateProps {}
+interface ProductInfoFormProps {
+  register: UseFormRegister<ProductCreateInputForm>;
+  errors: FieldErrors<ProductCreateInputForm>;
+  disabled: boolean;
+  isValid: boolean;
+  submitting: boolean;
+  control: Control<ProductCreateInputForm>;
+}
 
-const ProductCreateForm: FC<ProductCreateProps> = () => {
+const ProductInfoForm: FC<ProductInfoFormProps> = ({
+  register,
+  errors,
+  disabled,
+  isValid,
+  submitting,
+  control
+}) => {
+  console.log(errors);
+
   return (
     <CardContent>
       <div className="grid grid-cols-3 gap-20">
@@ -17,63 +37,102 @@ const ProductCreateForm: FC<ProductCreateProps> = () => {
           <div className="grid grid-cols-3 gap-10 py-5">
             <div className="col-span-3 md:col-span-1">Product name</div>
             <div className="col-span-3 md:col-span-2">
-              <Input />
+              <Input disabled={disabled} {...register('name')} type="text" />
             </div>
           </div>
 
           <div className="grid grid-cols-3 gap-10 py-5">
             <div className="col-span-3 md:col-span-1">Brand</div>
             <div className="col-span-3 md:col-span-2">
-              <Options />
+              <Options
+                name="brand"
+                control={control}
+                options={[
+                  {
+                    label: 'lab',
+                    value: 'val'
+                  },
+                  {
+                    label: 'lab1',
+                    value: 'val2'
+                  }
+                ]}
+              />
             </div>
           </div>
 
           <div className="grid grid-cols-3 gap-10 py-5">
             <div className="col-span-3 md:col-span-1">Category</div>
             <div className="col-span-3 md:col-span-2">
-              <Options />
+              <Options
+                name="category"
+                control={control}
+                options={[
+                  {
+                    label: 'lab',
+                    value: 'val'
+                  },
+                  {
+                    label: 'lab1',
+                    value: 'val2'
+                  }
+                ]}
+              />
             </div>
           </div>
 
           <div className="grid grid-cols-3 gap-10 py-5">
             <div className="col-span-3 md:col-span-1">Summary</div>
             <div className="col-span-3 md:col-span-2">
-              <TextArea />
+              <TextArea {...register('shortDescription')} />
             </div>
           </div>
 
           <div className="grid grid-cols-3 gap-10 py-5">
             <div className="col-span-3 md:col-span-1">Description</div>
             <div className="col-span-3 md:col-span-2">
-              <TextEditor />
+              <TextEditor {...register('description')} />
             </div>
           </div>
 
           <div className="grid grid-cols-3 gap-10 py-5">
             <div className="col-span-3 md:col-span-1">Make it as variant</div>
             <div className="col-span-3 md:col-span-2">
-              <Toggle />
+              <Toggle {...register('isVariant')} />
             </div>
           </div>
 
           <div className="grid grid-cols-3 gap-10 py-5">
             <div className="col-span-3 md:col-span-1">Parent product</div>
             <div className="col-span-3 md:col-span-2">
-              <Options />
+              <Options
+                name="parentId"
+                control={control}
+                options={[
+                  {
+                    label: 'lab',
+                    value: 'val'
+                  },
+                  {
+                    label: 'lab1',
+                    value: 'val2'
+                  }
+                ]}
+              />
             </div>
           </div>
 
           <div className="grid grid-cols-3 gap-10 py-5">
             <div className="col-span-3 md:col-span-1">Make it sellable</div>
             <div className="col-span-3 md:col-span-2">
-              <Toggle />
+              <Toggle {...register('isSellable')} />
             </div>
           </div>
 
           <div className="grid grid-cols-3 gap-10 py-5">
             <div className="col-span-3 md:col-span-1">COD availablity</div>
             <div className="col-span-3 md:col-span-2">
-              <Toggle />
+              <Toggle {...register('isCodAvailable')} />
             </div>
           </div>
         </div>
@@ -93,4 +152,4 @@ const ProductCreateForm: FC<ProductCreateProps> = () => {
   );
 };
 
-export default ProductCreateForm;
+export default ProductInfoForm;

@@ -1,23 +1,41 @@
-const Options = () => {
+import { isArrayNotEmpty } from '@/lib/utils';
+import { ProductCreateInputForm } from '@/src/product/components/productCreate/form';
+import { FC } from 'react';
+import { Control, Controller } from 'react-hook-form';
+
+export interface OptionsValuesTypes {
+  [key: string]: string;
+}
+
+interface OptionsProps {
+  control: Control<ProductCreateInputForm>;
+  name: keyof ProductCreateInputForm;
+  options: OptionsValuesTypes[];
+}
+
+const Options: FC<OptionsProps> = ({ control, name, options }) => {
   return (
-    <form className="max-w">
-      {/* <label
-        htmlFor="countries"
-        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-      >
-        Select an option
-      </label> */}
-      <select
-        id="countries"
-        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
-      >
-        <option selected>Choose a country</option>
-        <option value="US">United States</option>
-        <option value="CA">Canada</option>
-        <option value="FR">France</option>
-        <option value="DE">Germany</option>
-      </select>
-    </form>
+    <div className="max-w">
+      {control && (
+        <Controller
+          name={name}
+          control={control}
+          defaultValue=""
+          render={({ field }) => (
+            <select
+              {...field}
+              id={name}
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+            >
+              {isArrayNotEmpty(options) &&
+                options?.map((option) => (
+                  <option value={option.value}>{option.label}</option>
+                ))}
+            </select>
+          )}
+        />
+      )}
+    </div>
   );
 };
 

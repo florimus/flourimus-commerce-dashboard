@@ -31,3 +31,11 @@ export function populateSearchParams(
   }
   return searchParam.toString();
 }
+
+export function isArrayNotEmpty(arr?: any) {
+  return Boolean(Array.isArray(arr) && arr.length > 0);
+}
+
+export function isArrayEmpty(arr?: any) {
+  return !isArrayNotEmpty(arr);
+}
