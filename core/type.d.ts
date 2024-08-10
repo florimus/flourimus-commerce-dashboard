@@ -58,7 +58,19 @@ export interface ProductType {
   variants?: Array<Partial<ProductVariantsType>>;
   price?: Partial<ProductPriceType>;
   availableStocks: number;
+  shortDescription?: string;
+  description?: string;
+  parentId?: string;
+  isCodAvailable?: boolean;
+  createdAt?: string;
+  createdBy?: string;
+  updatedBy?: string;
+  metaStatus?: string;
 }
+
+export interface ProductResponseAPIType
+  extends ProductType,
+    APIErrorResponseType {}
 
 export interface ProductListType extends APIErrorResponseType {
   products: ProductType[];
