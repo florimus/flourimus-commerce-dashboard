@@ -27,12 +27,15 @@ const Options: FC<OptionsProps> = ({ control, name, options, error }) => {
               <select
                 {...field}
                 id={name}
+                value={`${field.value}` || ''}
                 className={`bg-gray-50 border${error ? ' border-red-500' : ' border-gray-300'} text-gray-900 text-sm rounded-lg block w-full p-2.5`}
               >
                 <option value="">Select</option>
                 {isArrayNotEmpty(options) &&
                   options?.map((option) => (
-                    <option value={option.value}>{option.label}</option>
+                    <option key={option.label} value={option.value}>
+                      {option.label}
+                    </option>
                   ))}
               </select>
               {error && <p className="text-red-500">{error}</p>}

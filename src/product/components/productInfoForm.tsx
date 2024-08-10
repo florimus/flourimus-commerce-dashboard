@@ -195,7 +195,7 @@ const ProductInfoForm: FC<ProductInfoFormProps> = ({
             />
             {isNonEmptyArray(medias) &&
               medias.map((media, index) => (
-                <div className="relative">
+                <div className="relative" key={`image_${media}_at_${index}`}>
                   <div
                     onClick={() => removeImage(index)}
                     className="bg-white absolute top-1 right-1 p-1 rounded-md cursor-pointer"

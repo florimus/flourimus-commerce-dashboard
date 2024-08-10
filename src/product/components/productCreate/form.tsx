@@ -33,7 +33,7 @@ interface productFormHandleProps {
   removeImage: (index: number) => void;
 }
 
-const productForm: (
+const ProductForm: (
   initial: Partial<ProductType>,
   onSubmit: (
     formData: ProductCreateInputForm
@@ -119,7 +119,7 @@ interface FormProps {
 }
 
 const Form: FC<FormProps> = ({ children, onSubmit }) => {
-  const props = productForm({ medias: [] }, onSubmit);
+  const props = ProductForm({ medias: [] }, onSubmit);
   return <form onSubmit={props.submit}>{children(props)}</form>;
 };
 
