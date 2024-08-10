@@ -9,13 +9,14 @@ import TextArea from '@/components/ui/textarea';
 import TextEditor from '@/components/ui/texteditor';
 import Toggle from '@/components/ui/toggle';
 import Image from 'next/image';
-import { FC } from 'react';
+import { FC, RefObject, useRef } from 'react';
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger
 } from '@/components/ui/tooltip';
-import { BadgeInfo } from 'lucide-react';
+import { BadgeInfo, Trash } from 'lucide-react';
+import { isNonEmptyArray } from '@apollo/client/utilities';
 
 interface ProductInfoFormProps {
   register: UseFormRegister<ProductCreateInputForm>;
@@ -25,6 +26,10 @@ interface ProductInfoFormProps {
   control: Control<ProductCreateInputForm>;
   isVariant: boolean;
   isSellable: boolean;
+  upload: (event: React.ChangeEvent<HTMLInputElement>) => Promise<void>;
+  imageLoading: boolean;
+  medias: string[];
+  removeImage: (index: number) => void;
 }
 
 const ProductInfoForm: FC<ProductInfoFormProps> = ({
@@ -34,8 +39,13 @@ const ProductInfoForm: FC<ProductInfoFormProps> = ({
   isVariant,
   isSellable,
   submitting,
-  control
+  control,
+  upload,
+  imageLoading,
+  medias,
+  removeImage
 }) => {
+  const imageRef = useRef<HTMLInputElement>(null);
   return (
     <CardContent>
       <div className="grid grid-cols-3 gap-20">
@@ -173,12 +183,40 @@ const ProductInfoForm: FC<ProductInfoFormProps> = ({
           )}
         </div>
         <div className="col-span-3 md:col-span-1 mt-5">
-          <div className="flex flex-wrap justify-end">
+          <div className="flex flex-wrap justify-center md:justify-end">
+            <input
+              type="file"
+              multiple
+              ref={imageRef}
+              style={{ display: 'none' }}
+              accept="image/*"
+              onChange={upload}
+              disabled={imageLoading}
+            />
+            {isNonEmptyArray(medias) &&
+              medias.map((media, index) => (
+                <div className="relative">
+                  <div
+                    onClick={() => removeImage(index)}
+                    className="bg-white absolute top-1 right-1 p-1 rounded-md cursor-pointer"
+                  >
+                    <Trash size={16} />
+                  </div>
+                  <Image
+                    alt="Product image"
+                    className="aspect-square rounded-md object-cover p-2 border ms-3 mb-3"
+                    height="150"
+                    src={media ?? '/upload-image.png'}
+                    width="150"
+                  />
+                </div>
+              ))}
             <Image
               alt="Product image"
               className="aspect-square rounded-md object-cover cursor-pointer p-10 border ms-3 mb-3"
               height="150"
-              src={'/upload-image.png'}
+              onClick={() => imageRef?.current?.click()}
+              src={imageLoading ? '/loading.webp' : '/upload-image.png'}
               width="150"
             />
           </div>

@@ -14,6 +14,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'fakestoreapi.com'
       },
+      {
+        protocol: 'https',
+        hostname: 'i.ibb.co'
+      },
     ]
   }
 };
