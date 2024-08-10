@@ -13,7 +13,13 @@ import { TableCell, TableRow } from '@/components/ui/table';
 import { ProductType } from 'core/type';
 import { getTime } from '@/lib/utils';
 
-export function Product({ product }: { product: ProductType }) {
+export function Product({
+  product,
+  handleGotoProduct
+}: {
+  product: ProductType;
+  handleGotoProduct: (id: string) => void;
+}) {
   return (
     <TableRow>
       <TableCell className=" sm:table-cell">
@@ -21,11 +27,16 @@ export function Product({ product }: { product: ProductType }) {
           alt="Product image"
           className="aspect-square rounded-md object-cover cursor-pointer"
           height="48"
+          onClick={() => handleGotoProduct(product?._id)}
           src={product?.medias?.[0]}
           width="48"
         />
       </TableCell>
-      <TableCell className="font-medium cursor-pointer" title={product?.name}>
+      <TableCell
+        onClick={() => handleGotoProduct(product?._id)}
+        className="font-medium cursor-pointer"
+        title={product?.name}
+      >
         {product?.name?.substring(0, 45)}...
       </TableCell>
       <TableCell className="hidden md:table-cell">{product._id}</TableCell>
@@ -63,7 +74,9 @@ export function Product({ product }: { product: ProductType }) {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem>Edit</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => handleGotoProduct(product?._id)}>
+              Edit
+            </DropdownMenuItem>
             <DropdownMenuItem>
               <form action={() => {}}>
                 <button type="submit">Delete</button>

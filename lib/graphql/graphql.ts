@@ -786,6 +786,13 @@ export type ProductCreateMutationVariables = Exact<{
 
 export type ProductCreateMutation = { __typename?: 'Mutation', productCreate?: { __typename?: 'Product', _id?: string | null } | null };
 
+export type ProductQueryVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type ProductQuery = { __typename?: 'Query', product?: { __typename?: 'Product', _id?: string | null, name?: string | null, medias?: Array<string | null> | null, shortDescription?: string | null, description?: string | null, parentId?: string | null, category?: string | null, brand?: string | null, haveVariants?: boolean | null, isVariant?: boolean | null, isSellable?: boolean | null, isCodAvailable?: boolean | null, variantInfo?: Array<string | null> | null, createdAt?: string | null, updatedAt?: string | null, isActive?: boolean | null, createdBy?: string | null, updatedBy?: string | null, metaStatus?: string | null, availableStocks?: number | null, variants?: Array<{ __typename?: 'Product', _id?: string | null, name?: string | null, medias?: Array<string | null> | null, category?: string | null, brand?: string | null, haveVariants?: boolean | null, isVariant?: boolean | null, isSellable?: boolean | null, variantInfo?: Array<string | null> | null, createdAt?: string | null, updatedAt?: string | null, isActive?: boolean | null, availableStocks?: number | null, variants?: Array<{ __typename?: 'Product', _id?: string | null } | null> | null, price?: { __typename?: 'ProductPrice', sellPrice?: number | null } | null } | null> | null, price?: { __typename?: 'ProductPrice', productId?: string | null, listPrice?: number | null, sellPrice?: number | null, taxPrice?: number | null } | null } | null };
+
 export type ProductListQueryVariables = Exact<{
   productListInput?: InputMaybe<ProductListInput>;
 }>;
@@ -823,6 +830,59 @@ export const ProductCreateDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<ProductCreateMutation, ProductCreateMutationVariables>;
+export const ProductDocument = new TypedDocumentString(`
+    query Product($id: String!) {
+  product(_id: $id) {
+    _id
+    name
+    medias
+    shortDescription
+    description
+    parentId
+    category
+    brand
+    haveVariants
+    isVariant
+    isSellable
+    isCodAvailable
+    variantInfo
+    createdAt
+    updatedAt
+    isActive
+    createdBy
+    updatedBy
+    metaStatus
+    availableStocks
+    variants {
+      _id
+      name
+      medias
+      category
+      brand
+      haveVariants
+      isVariant
+      isSellable
+      variantInfo
+      createdAt
+      updatedAt
+      isActive
+      variants {
+        _id
+      }
+      price {
+        sellPrice
+      }
+      availableStocks
+    }
+    price {
+      productId
+      listPrice
+      sellPrice
+      taxPrice
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<ProductQuery, ProductQueryVariables>;
 export const ProductListDocument = new TypedDocumentString(`
     query ProductList($productListInput: ProductListInput) {
   productList(productListInput: $productListInput) {

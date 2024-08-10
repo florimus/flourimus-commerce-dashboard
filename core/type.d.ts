@@ -34,7 +34,7 @@ export interface PageInfoType {
   totalPages: number;
 }
 
-export interface ProductVariantsType {
+export interface ProductVariantsType extends ProductType {
   _id: string;
 }
 
@@ -71,6 +71,10 @@ export interface ProductType {
 export interface ProductResponseAPIType
   extends ProductType,
     APIErrorResponseType {}
+
+export interface ProductDetailsAPIResponseType extends APIErrorResponseType {
+  product: ProductType;
+}
 
 export interface ProductListType extends APIErrorResponseType {
   products: ProductType[];

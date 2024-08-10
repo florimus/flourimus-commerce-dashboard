@@ -14,7 +14,7 @@ export default async function ProductsPage({
   const search = searchParams.q ?? '';
   const page = Number(searchParams.p ?? 0);
   const size = Number(searchParams.s ?? paginationConstants.limits[1]);
-  const sortBy = '_id';
+  const sortBy = 'updatedAt';
   const sortDirection = searchParams.d ?? paginationConstants.directions[0];
 
   const productListResponse: ProductListType = await getProducts(

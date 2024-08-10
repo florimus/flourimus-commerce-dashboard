@@ -15,6 +15,7 @@ import * as types from './graphql';
  */
 const documents = {
     "mutation ProductCreate($productCreateInput: ProductCreateInput) {\n  productCreate(productCreateInput: $productCreateInput) {\n    _id\n  }\n}": types.ProductCreateDocument,
+    "query Product($id: String!) {\n  product(_id: $id) {\n    _id\n    name\n    medias\n    shortDescription\n    description\n    parentId\n    category\n    brand\n    haveVariants\n    isVariant\n    isSellable\n    isCodAvailable\n    variantInfo\n    createdAt\n    updatedAt\n    isActive\n    createdBy\n    updatedBy\n    metaStatus\n    availableStocks\n    variants {\n      _id\n      name\n      medias\n      category\n      brand\n      haveVariants\n      isVariant\n      isSellable\n      variantInfo\n      createdAt\n      updatedAt\n      isActive\n      variants {\n        _id\n      }\n      price {\n        sellPrice\n      }\n      availableStocks\n    }\n    price {\n      productId\n      listPrice\n      sellPrice\n      taxPrice\n    }\n  }\n}": types.ProductDocument,
     "query ProductList($productListInput: ProductListInput) {\n  productList(productListInput: $productListInput) {\n    products {\n      _id\n      name\n      medias\n      category\n      brand\n      haveVariants\n      isVariant\n      isSellable\n      variantInfo\n      createdAt\n      updatedAt\n      isActive\n      variants {\n        _id\n      }\n      price {\n        sellPrice\n      }\n      availableStocks\n    }\n    pageInfo {\n      currentMatchs\n      isEnd\n      isStart\n      totalMatches\n      totalPages\n    }\n  }\n}": types.ProductListDocument,
     "query UserToken($email: String, $password: String) {\n  token(\n    tokenRequestInput: {email: $email, password: $password, grandType: \"password\"}\n  ) {\n    access\n    refresh\n  }\n}": types.UserTokenDocument,
 };
@@ -23,6 +24,10 @@ const documents = {
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "mutation ProductCreate($productCreateInput: ProductCreateInput) {\n  productCreate(productCreateInput: $productCreateInput) {\n    _id\n  }\n}"): typeof import('./graphql').ProductCreateDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "query Product($id: String!) {\n  product(_id: $id) {\n    _id\n    name\n    medias\n    shortDescription\n    description\n    parentId\n    category\n    brand\n    haveVariants\n    isVariant\n    isSellable\n    isCodAvailable\n    variantInfo\n    createdAt\n    updatedAt\n    isActive\n    createdBy\n    updatedBy\n    metaStatus\n    availableStocks\n    variants {\n      _id\n      name\n      medias\n      category\n      brand\n      haveVariants\n      isVariant\n      isSellable\n      variantInfo\n      createdAt\n      updatedAt\n      isActive\n      variants {\n        _id\n      }\n      price {\n        sellPrice\n      }\n      availableStocks\n    }\n    price {\n      productId\n      listPrice\n      sellPrice\n      taxPrice\n    }\n  }\n}"): typeof import('./graphql').ProductDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

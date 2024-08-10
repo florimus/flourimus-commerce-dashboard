@@ -53,6 +53,12 @@ export const ProductsTable: FC<ProductsTableProps> = ({
     });
   }
 
+  const handleGotoProduct = (id: string) => {
+    startTransition(() => {
+      router.push(`/product/id/${id}`, { scroll: false });
+    });
+  };
+
   return (
     <Card>
       <CardHeader>
@@ -86,7 +92,11 @@ export const ProductsTable: FC<ProductsTableProps> = ({
           <TableBody>
             {Array.isArray(products) &&
               products.map((product) => (
-                <Product key={product._id} product={product} />
+                <Product
+                  key={product._id}
+                  handleGotoProduct={handleGotoProduct}
+                  product={product}
+                />
               ))}
           </TableBody>
         </Table>

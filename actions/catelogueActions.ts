@@ -4,11 +4,13 @@ import { paginationConstants } from '@/constants/constants';
 import { client } from '@/lib/client';
 import {
   ProductCreateDocument,
+  ProductDocument,
   ProductListDocument
 } from '@/lib/graphql/graphql';
 import { ProductCreateInputForm } from '@/src/product/components/productCreate/form';
 import { gql } from '@apollo/client';
 import {
+  ProductDetailsAPIResponseType,
   ProductListType,
   ProductResponseAPIType,
   ProductType
@@ -75,5 +77,25 @@ export const createProduct: (
     return {
       error: error?.cause?.message || 'INTERNAL_SERVER_ERROR'
     } as ProductResponseAPIType;
+  }
+};
+
+export const getProductDetails: (
+  id: string
+) => Promise<ProductDetailsAPIResponseType> = async (id) => {
+  try {
+    const { data } = await client.query({
+      query: gql`
+        ${ProductDocument}
+      `,
+      variables: {
+        id
+      }
+    });
+    return data as ProductDetailsAPIResponseType;
+  } catch (error: any) {
+    return {
+      error: error?.cause?.message || 'INTERNAL_SERVER_ERROR'
+    } as ProductDetailsAPIResponseType;
   }
 };
