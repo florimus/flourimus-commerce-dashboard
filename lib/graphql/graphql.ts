@@ -779,6 +779,13 @@ export type WarehouseStatusChangeResponse = {
   success?: Maybe<Scalars['Boolean']['output']>;
 };
 
+export type ProductCreateMutationVariables = Exact<{
+  productCreateInput?: InputMaybe<ProductCreateInput>;
+}>;
+
+
+export type ProductCreateMutation = { __typename?: 'Mutation', productCreate?: { __typename?: 'Product', _id?: string | null } | null };
+
 export type ProductListQueryVariables = Exact<{
   productListInput?: InputMaybe<ProductListInput>;
 }>;
@@ -809,6 +816,13 @@ export class TypedDocumentString<TResult, TVariables>
   }
 }
 
+export const ProductCreateDocument = new TypedDocumentString(`
+    mutation ProductCreate($productCreateInput: ProductCreateInput) {
+  productCreate(productCreateInput: $productCreateInput) {
+    _id
+  }
+}
+    `) as unknown as TypedDocumentString<ProductCreateMutation, ProductCreateMutationVariables>;
 export const ProductListDocument = new TypedDocumentString(`
     query ProductList($productListInput: ProductListInput) {
   productList(productListInput: $productListInput) {

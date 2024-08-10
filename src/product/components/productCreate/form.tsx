@@ -1,6 +1,6 @@
 'use client';
 
-import { ProductType } from 'core/type';
+import { ProductResponseAPIType, ProductType } from 'core/type';
 import React, { FC, FormEventHandler, useState } from 'react';
 import {
   Control,
@@ -12,6 +12,7 @@ import { z } from 'zod';
 import Schema, { productCreateSchema } from './schema';
 import { uploadImage } from '@/lib/imgUtils';
 import { isArrayNotEmpty } from '@/lib/utils';
+import { useRouter } from 'next/navigation';
 
 export type ProductCreateInputForm = z.infer<typeof productCreateSchema>;
 
@@ -34,7 +35,9 @@ interface productFormHandleProps {
 
 const productForm: (
   initial: Partial<ProductType>,
-  onSubmit: () => Promise<void>
+  onSubmit: (
+    formData: ProductCreateInputForm
+  ) => Promise<ProductResponseAPIType>
 ) => productFormHandleProps = (initial, onSubmit) => {
   const {
     register,
@@ -51,12 +54,18 @@ const productForm: (
     resolver: Schema
   });
 
+  const router = useRouter();
+
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [imageLoading, setImgLoading] = useState<boolean>(false);
 
   const submit = async (data: ProductCreateInputForm) => {
-    onSubmit();
-    console.log({ data });
+    setSubmitting(true);
+    const response = await onSubmit(data);
+    setSubmitting(false);
+    if (response?._id) {
+      router.push(`/product/id/${response._id}`);
+    }
   };
 
   const upload = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -103,7 +112,9 @@ const productForm: (
 };
 
 interface FormProps {
-  onSubmit: () => Promise<void>;
+  onSubmit: (
+    formData: ProductCreateInputForm
+  ) => Promise<ProductResponseAPIType>;
   children: (props: productFormHandleProps) => React.ReactNode;
 }
 

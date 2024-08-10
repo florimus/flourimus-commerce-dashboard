@@ -68,6 +68,10 @@ export interface ProductType {
   metaStatus?: string;
 }
 
+export interface ProductResponseAPIType
+  extends ProductType,
+    APIErrorResponseType {}
+
 export interface ProductListType extends APIErrorResponseType {
   products: ProductType[];
   pageInfo: Partial<PageInfoType>;
