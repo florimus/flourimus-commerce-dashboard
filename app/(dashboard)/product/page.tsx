@@ -1,7 +1,9 @@
 import { getProducts } from '@/actions/catelogueActions';
+import Loader from '@/components/ui/loader';
 import { paginationConstants } from '@/constants/constants';
 import Product from '@/src/product';
 import { ProductListType } from 'core/type';
+import { Suspense } from 'react';
 
 export default async function ProductsPage({
   searchParams
@@ -30,13 +32,15 @@ export default async function ProductsPage({
     productListResponse?.products?.length > 0;
 
   return (
-    <Product.ProductList
-      products={productListResponse?.products}
-      pageInfo={productListResponse?.pageInfo}
-      searchParams={searchParams}
-      pagesize={size}
-      page={page}
-      tab={tab}
-    />
+    <Suspense fallback={<Loader />}>
+      <Product.ProductList
+        products={productListResponse?.products}
+        pageInfo={productListResponse?.pageInfo}
+        searchParams={searchParams}
+        pagesize={size}
+        page={page}
+        tab={tab}
+      />
+    </Suspense>
   );
 }

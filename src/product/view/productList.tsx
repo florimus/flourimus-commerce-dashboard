@@ -8,9 +8,7 @@ import { PageInfoType, ProductType } from 'core/type';
 import { FC, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import Loader from '@/components/ui/loader';
-import { Card } from '@/components/ui/card';
 import { populateSearchParams } from '@/lib/utils';
-import Link from 'next/link';
 
 interface ProductListProps {
   products: ProductType[];
@@ -41,6 +39,12 @@ const ProductList: FC<ProductListProps> = ({
     });
   }
 
+  const handleGotoCreate = () => {
+    startTransition(() => {
+      router.push(`/product/create`, { scroll: false });
+    });
+  };
+
   return (
     <Tabs defaultValue={tab || 'ALL'}>
       <div className="flex items-center">
@@ -65,20 +69,16 @@ const ProductList: FC<ProductListProps> = ({
               Export
             </span>
           </Button>
-          <Link href={'/product/create'}>
-            <Button size="sm" className="h-8 gap-1">
-              <PlusCircle className="h-3.5 w-3.5" />
-              <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                Add Product
-              </span>
-            </Button>
-          </Link>
+          <Button size="sm" onClick={handleGotoCreate} className="h-8 gap-1">
+            <PlusCircle className="h-3.5 w-3.5" />
+            <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+              Add Product
+            </span>
+          </Button>
         </div>
       </div>
       {isPending ? (
-        <Card>
-          <Loader />
-        </Card>
+        <Loader />
       ) : (
         <TabsContent value={tab}>
           <ProductsTable
