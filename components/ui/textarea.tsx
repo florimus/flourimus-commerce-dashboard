@@ -1,16 +1,21 @@
-const TextArea = ({ placeholder, ...rest }: any) => {
+const TextArea = ({ placeholder, error, ...rest }: any) => {
   return (
-    <div className="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
-      <div className="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">
-        <textarea
-          id="comment"
-          rows={4}
-          {...rest}
-          className="w-full px-0 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
-          placeholder="Write a comment..."
-        ></textarea>
+    <>
+      <div
+        className={`w-full border${error ? ' border-red-500' : ' border-gray-200'} rounded-lg bg-gray-50`}
+      >
+        <div className="px-4 py-2 bg-white rounded-t-lg">
+          <textarea
+            id="comment"
+            rows={4}
+            {...rest}
+            className="w-full px-0 text-sm text-gray-900 bg-white border-0 focus:ring-0"
+            placeholder={placeholder ?? 'Write a comment...'}
+          />
+        </div>
       </div>
-    </div>
+      {error && <p className="text-red-500">{error}</p>}
+    </>
   );
 };
 

@@ -6,12 +6,15 @@ export const productCreateSchema = z
     name: z.string().nonempty({ message: 'Name is mandatory' }),
     brand: z.string().nonempty({ message: 'Brand is mandatory' }),
     category: z.string().nonempty({ message: 'Category is mandatory' }),
-    shortDescription: z.string().optional(),
+    shortDescription: z
+      .string()
+      .max(128, 'Maximum charator limit 128 exceeded')
+      .optional(),
     description: z.string(),
     isVariant: z.boolean(),
     parentId: z.string().optional(),
     isSellable: z.boolean(),
-    isCodAvailable: z.boolean(),
+    isCodAvailable: z.boolean().optional(),
     medias: z.array(z.string()).optional()
   })
   .refine(
@@ -20,13 +23,6 @@ export const productCreateSchema = z
     {
       message: 'Parent ID is mandatory for variants',
       path: ['parentId']
-    }
-  )
-  .refine(
-    (data) => !data.isCodAvailable || (data.isSellable && data.isCodAvailable),
-    {
-      message: 'Only sellable product can be available for COD',
-      path: ['isCodAvailable']
     }
   );
 

@@ -6,6 +6,7 @@ import {
   Control,
   FieldErrors,
   useForm,
+  UseFormGetValues,
   UseFormRegister
 } from 'react-hook-form';
 import { z } from 'zod';
@@ -22,6 +23,8 @@ interface productFormHandleProps {
   isValid: boolean;
   control: Control<ProductCreateInputForm>;
   submitting: boolean;
+  isVariant: boolean;
+  isSellable: boolean;
 }
 
 const productForm: (
@@ -33,7 +36,7 @@ const productForm: (
     handleSubmit,
     control,
     formState: { errors, isLoading, isValid, isDirty },
-    setError
+    watch
   } = useForm<ProductCreateInputForm>({
     mode: 'onTouched',
     reValidateMode: 'onChange',
@@ -55,7 +58,9 @@ const productForm: (
     control,
     disabled: isLoading,
     submit: handleSubmit(submit),
-    submitting
+    submitting,
+    isVariant: watch('isVariant'),
+    isSellable: watch('isSellable')
   };
 };
 

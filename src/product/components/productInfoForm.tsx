@@ -10,26 +10,32 @@ import TextEditor from '@/components/ui/texteditor';
 import Toggle from '@/components/ui/toggle';
 import Image from 'next/image';
 import { FC } from 'react';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger
+} from '@/components/ui/tooltip';
+import { BadgeInfo } from 'lucide-react';
 
 interface ProductInfoFormProps {
   register: UseFormRegister<ProductCreateInputForm>;
   errors: FieldErrors<ProductCreateInputForm>;
   disabled: boolean;
-  isValid: boolean;
   submitting: boolean;
   control: Control<ProductCreateInputForm>;
+  isVariant: boolean;
+  isSellable: boolean;
 }
 
 const ProductInfoForm: FC<ProductInfoFormProps> = ({
   register,
   errors,
   disabled,
-  isValid,
+  isVariant,
+  isSellable,
   submitting,
   control
 }) => {
-  console.log(errors);
-
   return (
     <CardContent>
       <div className="grid grid-cols-3 gap-20">
@@ -37,7 +43,12 @@ const ProductInfoForm: FC<ProductInfoFormProps> = ({
           <div className="grid grid-cols-3 gap-10 py-5">
             <div className="col-span-3 md:col-span-1">Product name</div>
             <div className="col-span-3 md:col-span-2">
-              <Input disabled={disabled} {...register('name')} type="text" />
+              <Input
+                disabled={disabled}
+                {...register('name')}
+                error={errors?.name?.message}
+                type="text"
+              />
             </div>
           </div>
 
@@ -47,6 +58,7 @@ const ProductInfoForm: FC<ProductInfoFormProps> = ({
               <Options
                 name="brand"
                 control={control}
+                error={errors?.brand?.message}
                 options={[
                   {
                     label: 'lab',
@@ -67,6 +79,7 @@ const ProductInfoForm: FC<ProductInfoFormProps> = ({
               <Options
                 name="category"
                 control={control}
+                error={errors?.category?.message}
                 options={[
                   {
                     label: 'lab',
@@ -84,14 +97,20 @@ const ProductInfoForm: FC<ProductInfoFormProps> = ({
           <div className="grid grid-cols-3 gap-10 py-5">
             <div className="col-span-3 md:col-span-1">Summary</div>
             <div className="col-span-3 md:col-span-2">
-              <TextArea {...register('shortDescription')} />
+              <TextArea
+                error={errors?.shortDescription?.message}
+                {...register('shortDescription')}
+              />
             </div>
           </div>
 
           <div className="grid grid-cols-3 gap-10 py-5">
             <div className="col-span-3 md:col-span-1">Description</div>
             <div className="col-span-3 md:col-span-2">
-              <TextEditor {...register('description')} />
+              <TextEditor
+                error={errors?.description?.message}
+                {...register('description')}
+              />
             </div>
           </div>
 
@@ -102,25 +121,28 @@ const ProductInfoForm: FC<ProductInfoFormProps> = ({
             </div>
           </div>
 
-          <div className="grid grid-cols-3 gap-10 py-5">
-            <div className="col-span-3 md:col-span-1">Parent product</div>
-            <div className="col-span-3 md:col-span-2">
-              <Options
-                name="parentId"
-                control={control}
-                options={[
-                  {
-                    label: 'lab',
-                    value: 'val'
-                  },
-                  {
-                    label: 'lab1',
-                    value: 'val2'
-                  }
-                ]}
-              />
+          {isVariant && (
+            <div className="grid grid-cols-3 gap-10 py-5">
+              <div className="col-span-3 md:col-span-1">Parent product</div>
+              <div className="col-span-3 md:col-span-2">
+                <Options
+                  name="parentId"
+                  control={control}
+                  error={errors?.parentId?.message}
+                  options={[
+                    {
+                      label: 'lab',
+                      value: 'val'
+                    },
+                    {
+                      label: 'lab1',
+                      value: 'val2'
+                    }
+                  ]}
+                />
+              </div>
             </div>
-          </div>
+          )}
 
           <div className="grid grid-cols-3 gap-10 py-5">
             <div className="col-span-3 md:col-span-1">Make it sellable</div>
@@ -129,12 +151,26 @@ const ProductInfoForm: FC<ProductInfoFormProps> = ({
             </div>
           </div>
 
-          <div className="grid grid-cols-3 gap-10 py-5">
-            <div className="col-span-3 md:col-span-1">COD availablity</div>
-            <div className="col-span-3 md:col-span-2">
-              <Toggle {...register('isCodAvailable')} />
+          {isSellable && (
+            <div className="grid grid-cols-3 gap-10 py-5">
+              <div className="col-span-3 md:col-span-1 flex align-middle">
+                <p className="me-2">COD availablity</p>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <BadgeInfo className="mb-1" size={18} />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    If enabled, customer can <br />
+                    purchase this product through
+                    <b> Cash On Delivery</b>
+                  </TooltipContent>
+                </Tooltip>
+              </div>
+              <div className="col-span-3 md:col-span-2">
+                <Toggle {...register('isCodAvailable')} />
+              </div>
             </div>
-          </div>
+          )}
         </div>
         <div className="col-span-3 md:col-span-1 mt-5">
           <div className="flex flex-wrap justify-end">
