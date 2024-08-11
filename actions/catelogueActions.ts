@@ -6,7 +6,8 @@ import {
   ProductCreateDocument,
   ProductDocument,
   ProductListDocument,
-  ProductUpdateDocument
+  ProductUpdateDocument,
+  WarehousesWithProductDocument
 } from '@/lib/graphql/graphql';
 import { ProductCreateInputForm } from '@/src/product/components/productCreate/form';
 import { ProductUpdateInputForm } from '@/src/product/components/productDetails/form';
@@ -15,7 +16,8 @@ import {
   ProductDetailsAPIResponseType,
   ProductListType,
   ProductResponseAPIType,
-  ProductType
+  ProductType,
+  ProductWarehouseAPIResponseType
 } from 'core/type';
 import { revalidatePath } from 'next/cache';
 
@@ -123,5 +125,25 @@ export const updateProductDetails: (
     return {
       error: error?.cause?.message || 'INTERNAL_SERVER_ERROR'
     } as ProductDetailsAPIResponseType;
+  }
+};
+
+export const getProductWarehouses: (
+  productId: string
+) => Promise<ProductWarehouseAPIResponseType> = async (productId) => {
+  try {
+    const { data } = await client.query({
+      query: gql`
+        ${WarehousesWithProductDocument}
+      `,
+      variables: {
+        productId
+      }
+    });
+    return data?.warehousesWithProduct as ProductWarehouseAPIResponseType;
+  } catch (error: any) {
+    return {
+      error: error?.cause?.message || 'INTERNAL_SERVER_ERROR'
+    } as ProductWarehouseAPIResponseType;
   }
 };

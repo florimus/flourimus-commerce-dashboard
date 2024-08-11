@@ -480,6 +480,7 @@ export type Query = {
   verifyInvitation?: Maybe<User>;
   warehouse?: Maybe<Warehouse>;
   warehouseList?: Maybe<WarehouseList>;
+  warehousesWithProduct?: Maybe<Array<Maybe<Warehouse>>>;
 };
 
 
@@ -551,6 +552,11 @@ export type QueryWarehouseArgs = {
 
 export type QueryWarehouseListArgs = {
   warehouseListInput?: InputMaybe<WarehouseListInput>;
+};
+
+
+export type QueryWarehousesWithProductArgs = {
+  productId: Scalars['String']['input'];
 };
 
 export type ResetPassword = {
@@ -808,6 +814,13 @@ export type ProductListQueryVariables = Exact<{
 
 export type ProductListQuery = { __typename?: 'Query', productList?: { __typename?: 'ProductList', products?: Array<{ __typename?: 'Product', _id?: string | null, name?: string | null, medias?: Array<string | null> | null, category?: string | null, brand?: string | null, haveVariants?: boolean | null, isVariant?: boolean | null, isSellable?: boolean | null, variantInfo?: Array<string | null> | null, createdAt?: string | null, updatedAt?: string | null, isActive?: boolean | null, availableStocks?: number | null, variants?: Array<{ __typename?: 'Product', _id?: string | null } | null> | null, price?: { __typename?: 'ProductPrice', sellPrice?: number | null } | null } | null> | null, pageInfo?: { __typename?: 'ProductPageInfo', currentMatchs?: number | null, isEnd?: boolean | null, isStart?: boolean | null, totalMatches?: number | null, totalPages?: number | null } | null } | null };
 
+export type WarehousesWithProductQueryVariables = Exact<{
+  productId: Scalars['String']['input'];
+}>;
+
+
+export type WarehousesWithProductQuery = { __typename?: 'Query', warehousesWithProduct?: Array<{ __typename?: 'Warehouse', _id?: string | null, name?: string | null, isActive?: boolean | null, country?: string | null, stockList?: { __typename?: 'StockList', stocks?: Array<{ __typename?: 'ProductStocks', productId?: string | null, totalStocks?: number | null, saftyStock?: number | null, allocatedStocks?: number | null } | null> | null } | null } | null> | null };
+
 export type UserTokenQueryVariables = Exact<{
   email?: InputMaybe<Scalars['String']['input']>;
   password?: InputMaybe<Scalars['String']['input']>;
@@ -978,6 +991,24 @@ export const ProductListDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<ProductListQuery, ProductListQueryVariables>;
+export const WarehousesWithProductDocument = new TypedDocumentString(`
+    query WarehousesWithProduct($productId: String!) {
+  warehousesWithProduct(productId: $productId) {
+    _id
+    name
+    isActive
+    country
+    stockList(stockListInput: {search: $productId}) {
+      stocks {
+        productId
+        totalStocks
+        saftyStock
+        allocatedStocks
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<WarehousesWithProductQuery, WarehousesWithProductQueryVariables>;
 export const UserTokenDocument = new TypedDocumentString(`
     query UserToken($email: String, $password: String) {
   token(

@@ -27,9 +27,6 @@ const ProductDetailsHeader: FC<ProductDetailsHeaderProps> = ({
     });
   };
 
-  console.log(submitting);
-  
-
   return (
     <CardHeader>
       <div className="flex justify-between">

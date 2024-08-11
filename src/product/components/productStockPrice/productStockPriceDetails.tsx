@@ -1,20 +1,23 @@
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardDescription,
   CardHeader,
   CardTitle
 } from '@/components/ui/card';
+import { FC, FormEventHandler } from 'react';
 
-const ProductStockPriceDetails = () => {
+interface ProductStockPriceDetails {}
+
+const ProductStockPriceDetails: FC<ProductStockPriceDetails> = ({}) => {
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Stocks and Price Details</CardTitle>
-        <CardDescription>
-          Manage Product's stocks and price details
-        </CardDescription>
-      </CardHeader>
-    </Card>
+    <CardHeader>
+      <CardTitle>Stocks and Price Details</CardTitle>
+      <CardDescription>
+        Manage Product's stocks and price details
+      </CardDescription>
+      <Button type="submit">Submit</Button>
+    </CardHeader>
   );
 };
 

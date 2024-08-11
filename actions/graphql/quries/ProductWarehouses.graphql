@@ -1,0 +1,16 @@
+query WarehousesWithProduct($productId: String!) {
+  warehousesWithProduct(productId: $productId) {
+    _id
+    name
+    isActive
+    country
+    stockList(stockListInput: { search: $productId }) {
+      stocks {
+        productId
+        totalStocks
+        saftyStock
+        allocatedStocks
+      }
+    }
+  }
+}

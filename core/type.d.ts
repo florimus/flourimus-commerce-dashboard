@@ -80,3 +80,27 @@ export interface ProductListType extends APIErrorResponseType {
   products: ProductType[];
   pageInfo: Partial<PageInfoType>;
 }
+
+export interface ProductStockType {
+  productId: string;
+  totalStocks: number;
+  saftyStock: number;
+  allocatedStocks: number;
+}
+
+export interface WarehouseType {
+  _id: string;
+  name: string;
+  stockList?: { stocks: ProductStockType[] };
+  country: string;
+  createdAt: string;
+  updatedAt: string;
+  isActive: boolean;
+  createdBy: string;
+  updatedBy: string;
+  metaStatus?: string;
+}
+
+export interface ProductWarehouseAPIResponseType
+  extends Array<WarehouseType>,
+    APIErrorResponseType {}

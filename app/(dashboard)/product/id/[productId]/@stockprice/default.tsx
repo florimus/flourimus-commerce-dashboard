@@ -1,5 +1,9 @@
-import { getProductDetails } from '@/actions/catelogueActions';
+import {
+  getProductDetails,
+  getProductWarehouses
+} from '@/actions/catelogueActions';
 import Loader from '@/components/ui/loader';
+import { isArrayEmpty } from '@/lib/utils';
 import Product from '@/src/product';
 import { Suspense } from 'react';
 
@@ -14,17 +18,16 @@ export default async function ProductStockPricePage({
   if (!productId) {
     // TODO: Not found page
   }
-  const productResponse = await getProductDetails(productId);
 
-  if (!productResponse?.error) {
+  const warehouses = (await getProductWarehouses(productId)) || {};
+
+  if (isArrayEmpty(warehouses)) {
     // TODO: Not found page
   }
 
-  console.log(productResponse);
-
   return (
     <Suspense fallback={<Loader />}>
-      <Product.ProductStockPrice />
+      <Product.ProductStockPrice warehouses={warehouses} />
     </Suspense>
   );
 }
