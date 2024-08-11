@@ -33,14 +33,16 @@ const ProductDetails: FC<ProductDetailsProps> = ({ product }) => {
   return (
     <DataForm initial={product} onSubmit={handleCreateProduct}>
       {(props) => (
-        <Card>
-          <ProductDetailsHeader
-            name={product?.name}
-            id={product?._id}
-            submitting={props?.submitting}
-          />
-          <ProductInfoForm {...props} isUpdatePage />
-        </Card>
+        <>
+          <Card>
+            <ProductDetailsHeader
+              name={product?.name}
+              id={product?._id}
+              submitting={props?.submitting}
+            />
+            <ProductInfoForm {...props} isUpdatePage />
+          </Card>
+        </>
       )}
     </DataForm>
   );
