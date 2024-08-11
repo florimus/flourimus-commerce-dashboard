@@ -5,9 +5,11 @@ import { client } from '@/lib/client';
 import {
   ProductCreateDocument,
   ProductDocument,
-  ProductListDocument
+  ProductListDocument,
+  ProductUpdateDocument
 } from '@/lib/graphql/graphql';
 import { ProductCreateInputForm } from '@/src/product/components/productCreate/form';
+import { ProductUpdateInputForm } from '@/src/product/components/productDetails/form';
 import { gql } from '@apollo/client';
 import {
   ProductDetailsAPIResponseType,
@@ -15,6 +17,7 @@ import {
   ProductResponseAPIType,
   ProductType
 } from 'core/type';
+import { revalidatePath } from 'next/cache';
 
 export const getProducts: (
   search: string,
@@ -93,6 +96,29 @@ export const getProductDetails: (
       }
     });
     return data as ProductDetailsAPIResponseType;
+  } catch (error: any) {
+    return {
+      error: error?.cause?.message || 'INTERNAL_SERVER_ERROR'
+    } as ProductDetailsAPIResponseType;
+  }
+};
+
+export const updateProductDetails: (
+  id: string,
+  formData: Partial<ProductUpdateInputForm>
+) => Promise<ProductDetailsAPIResponseType> = async (id, formData) => {
+  try {
+    const { data } = await client.query({
+      query: gql`
+        ${ProductUpdateDocument}
+      `,
+      variables: {
+        id,
+        productUpdateInput: formData
+      }
+    });
+    revalidatePath(`/product/id/${id}`);
+    return { product: data?.productUpdate } as ProductDetailsAPIResponseType;
   } catch (error: any) {
     return {
       error: error?.cause?.message || 'INTERNAL_SERVER_ERROR'

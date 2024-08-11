@@ -1,5 +1,5 @@
-query Product($id: String!) {
-  product(_id: $id) {
+mutation ProductUpdate($id: ID!, $productUpdateInput: ProductUpdateInput) {
+  productUpdate(_id: $id, productUpdateInput: $productUpdateInput) {
     _id
     name
     medias
