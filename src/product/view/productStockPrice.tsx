@@ -4,18 +4,29 @@ import ProductStockPriceDetails from '../components/productStockPrice/productSto
 import { WarehouseType } from 'core/type';
 import { Card } from '@/components/ui/card';
 import ProductWarehouseForm from '../components/productStockPrice/productWarehouseForm';
-import FormData from '../components/productStockPrice/form';
+import FormData, { FormDataType } from '../components/productStockPrice/form';
+import { getProductStockUpdate } from '@/actions/catelogueActions';
 
 interface ProductStockPriceProps {
   warehouses: Array<WarehouseType>;
 }
 
+export interface ProductStockUpdateRequestTypes {
+  warehouseId: string;
+  productId: string | undefined;
+  totalStocks: number | undefined;
+  saftyStock: number | undefined;
+}
+
 const ProductStockPrice: FC<ProductStockPriceProps> = ({ warehouses }) => {
+  const updateProductStock = async (
+    formData: ProductStockUpdateRequestTypes[]
+  ) => getProductStockUpdate(formData);
   return (
-    <FormData initial={warehouses}>
+    <FormData initial={warehouses} onSubmit={updateProductStock}>
       {(props) => (
         <Card>
-          <ProductStockPriceDetails />
+          <ProductStockPriceDetails submitting={props.submitting} />
           <ProductWarehouseForm {...props} />
         </Card>
       )}

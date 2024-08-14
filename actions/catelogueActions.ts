@@ -6,16 +6,19 @@ import {
   ProductCreateDocument,
   ProductDocument,
   ProductListDocument,
+  ProductStockEntryDocument,
   ProductUpdateDocument,
   WarehousesWithProductDocument
 } from '@/lib/graphql/graphql';
 import { ProductCreateInputForm } from '@/src/product/components/productCreate/form';
 import { ProductUpdateInputForm } from '@/src/product/components/productDetails/form';
+import { ProductStockUpdateRequestTypes } from '@/src/product/view/productStockPrice';
 import { gql } from '@apollo/client';
 import {
   ProductDetailsAPIResponseType,
   ProductListType,
   ProductResponseAPIType,
+  ProductStockUpdateResponseType,
   ProductType,
   ProductWarehouseAPIResponseType
 } from 'core/type';
@@ -145,5 +148,43 @@ export const getProductWarehouses: (
     return {
       error: error?.cause?.message || 'INTERNAL_SERVER_ERROR'
     } as ProductWarehouseAPIResponseType;
+  }
+};
+
+export const getProductStockUpdate: (
+  formData: ProductStockUpdateRequestTypes[]
+) => Promise<ProductStockUpdateResponseType> = async (
+  formData: ProductStockUpdateRequestTypes[]
+) => {
+  try {
+    await Promise.all([
+      formData?.forEach(
+        async ({
+          warehouseId,
+          productId,
+          totalStocks,
+          saftyStock
+        }: ProductStockUpdateRequestTypes) => {
+          await client.query({
+            query: gql`
+              ${ProductStockEntryDocument}
+            `,
+            variables: {
+              productStockEntryInput: {
+                warehouseId,
+                productId,
+                totalStocks: Number(totalStocks),
+                saftyStock: Number(saftyStock)
+              }
+            }
+          });
+        }
+      )
+    ]);
+    return { success: true };
+  } catch (error: any) {
+    return {
+      error: error?.cause?.message || 'INTERNAL_SERVER_ERROR'
+    } as ProductStockUpdateResponseType;
   }
 };

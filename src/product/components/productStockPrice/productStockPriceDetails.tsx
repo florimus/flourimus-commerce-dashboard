@@ -16,6 +16,8 @@ interface ProductStockPriceDetails {
 const ProductStockPriceDetails: FC<ProductStockPriceDetails> = ({
   submitting
 }) => {
+  console.log(submitting);
+  
   return (
     <CardHeader>
       <div className="flex justify-between">

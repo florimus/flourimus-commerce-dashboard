@@ -104,3 +104,7 @@ export interface WarehouseType {
 export interface ProductWarehouseAPIResponseType
   extends Array<WarehouseType>,
     APIErrorResponseType {}
+
+export interface ProductStockUpdateResponseType extends APIErrorResponseType {
+  success: boolean;
+}

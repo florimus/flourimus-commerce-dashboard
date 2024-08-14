@@ -792,6 +792,13 @@ export type ProductCreateMutationVariables = Exact<{
 
 export type ProductCreateMutation = { __typename?: 'Mutation', productCreate?: { __typename?: 'Product', _id?: string | null } | null };
 
+export type ProductStockEntryMutationVariables = Exact<{
+  productStockEntryInput: ProductStockEntryInput;
+}>;
+
+
+export type ProductStockEntryMutation = { __typename?: 'Mutation', productStockEntry?: { __typename?: 'ProductStocks', productId?: string | null, totalStocks?: number | null, saftyStock?: number | null, allocatedStocks?: number | null } | null };
+
 export type ProductUpdateMutationVariables = Exact<{
   id: Scalars['ID']['input'];
   productUpdateInput?: InputMaybe<ProductUpdateInput>;
@@ -851,6 +858,16 @@ export const ProductCreateDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<ProductCreateMutation, ProductCreateMutationVariables>;
+export const ProductStockEntryDocument = new TypedDocumentString(`
+    mutation ProductStockEntry($productStockEntryInput: ProductStockEntryInput!) {
+  productStockEntry(productStockEntryInput: $productStockEntryInput) {
+    productId
+    totalStocks
+    saftyStock
+    allocatedStocks
+  }
+}
+    `) as unknown as TypedDocumentString<ProductStockEntryMutation, ProductStockEntryMutationVariables>;
 export const ProductUpdateDocument = new TypedDocumentString(`
     mutation ProductUpdate($id: ID!, $productUpdateInput: ProductUpdateInput) {
   productUpdate(_id: $id, productUpdateInput: $productUpdateInput) {

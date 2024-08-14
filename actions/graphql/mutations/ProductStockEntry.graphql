@@ -1,0 +1,8 @@
+mutation ProductStockEntry($productStockEntryInput: ProductStockEntryInput!) {
+  productStockEntry(productStockEntryInput: $productStockEntryInput) {
+    productId
+    totalStocks
+    saftyStock
+    allocatedStocks
+  }
+}
