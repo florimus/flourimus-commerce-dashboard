@@ -181,6 +181,7 @@ export const getProductStockUpdate: (
         }
       )
     ]);
+    revalidatePath(`/product/id/${formData?.[0]?.productId}`);
     return { success: true };
   } catch (error: any) {
     return {

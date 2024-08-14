@@ -8,8 +8,8 @@ export interface OptionsValuesTypes {
 }
 
 interface OptionsProps {
-  control: Control<ProductCreateInputForm>;
-  name: keyof ProductCreateInputForm;
+  control: Control<any>;
+  name: string;
   options: OptionsValuesTypes[];
   error?: string;
   disabled?: boolean;

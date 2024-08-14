@@ -2,7 +2,13 @@
 import { isArrayEmpty, isArrayNotEmpty } from '@/lib/utils';
 import { ProductStockUpdateResponseType, WarehouseType } from 'core/type';
 import { FC, FormEventHandler, useState } from 'react';
-import { useForm, UseFormGetValues, UseFormRegister } from 'react-hook-form';
+import {
+  Control,
+  useFieldArray,
+  useForm,
+  UseFormGetValues,
+  UseFormRegister
+} from 'react-hook-form';
 import { ProductStockUpdateRequestTypes } from '../../view/productStockPrice';
 
 interface ProductStockFormHandleProps {
@@ -11,6 +17,8 @@ interface ProductStockFormHandleProps {
   count: number;
   submit: FormEventHandler<HTMLFormElement>;
   submitting: boolean;
+  addEmptyWarehouseItem: () => void;
+  control: Control<FormDataType>;
 
   //   register: UseFormRegister<ProductUpdateInputForm>;
   //   errors: FieldErrors<ProductUpdateInputForm>;
@@ -18,7 +26,6 @@ interface ProductStockFormHandleProps {
   //   disabled: boolean;
   //   isDirty: boolean;
   //   isValid: boolean;
-  //   control: Control<ProductUpdateInputForm>;
   //   submitting: boolean;
   //   isVariant: boolean;
   //   isSellable: boolean;
@@ -36,8 +43,9 @@ const ProductStockForm: (
   initial: Array<WarehouseType>,
   onSubmit: (
     formData: ProductStockUpdateRequestTypes[]
-  ) => Promise<ProductStockUpdateResponseType>
-) => ProductStockFormHandleProps = (initial, onSubmit) => {
+  ) => Promise<ProductStockUpdateResponseType>,
+  productId: string
+) => ProductStockFormHandleProps = (initial, onSubmit, productId) => {
   const {
     register,
     handleSubmit,
@@ -54,6 +62,34 @@ const ProductStockForm: (
   });
 
   const [submitting, setSubmitting] = useState<boolean>(false);
+
+  const { append } = useFieldArray({
+    control,
+    name: 'warehouses'
+  });
+
+  const addEmptyWarehouseItem = () => {
+    append({
+      _id: '',
+      name: '',
+      country: '',
+      createdAt: '',
+      updatedAt: '',
+      stockList: {
+        stocks: [
+          {
+            allocatedStocks: 0,
+            productId: productId,
+            saftyStock: 0,
+            totalStocks: 0
+          }
+        ]
+      },
+      isActive: false,
+      createdBy: '',
+      updatedBy: ''
+    });
+  };
 
   const submit = async (formdata: FormDataType) => {
     const { warehouses } = formdata || {};
@@ -79,7 +115,11 @@ const ProductStockForm: (
     getValues,
     submit: handleSubmit(submit),
     submitting,
-    count: isArrayNotEmpty(initial) ? initial.length : 0
+    control,
+    count: isArrayNotEmpty(getValues('warehouses'))
+      ? getValues('warehouses').length
+      : 0,
+    addEmptyWarehouseItem
   };
 };
 
@@ -89,10 +129,11 @@ interface FormProps {
   ) => Promise<ProductStockUpdateResponseType>;
   children: (props: ProductStockFormHandleProps) => React.ReactNode;
   initial: Array<WarehouseType>;
+  productId: string;
 }
 
-const Form: FC<FormProps> = ({ children, initial, onSubmit }) => {
-  const props = ProductStockForm(initial, onSubmit);
+const Form: FC<FormProps> = ({ children, initial, productId, onSubmit }) => {
+  const props = ProductStockForm(initial, onSubmit, productId);
   return <form onSubmit={props.submit}>{children(props)}</form>;
 };
 

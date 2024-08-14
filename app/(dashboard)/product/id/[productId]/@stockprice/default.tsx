@@ -27,7 +27,7 @@ export default async function ProductStockPricePage({
 
   return (
     <Suspense fallback={<Loader />}>
-      <Product.ProductStockPrice warehouses={warehouses} />
+      <Product.ProductStockPrice warehouses={warehouses} productId={productId} />
     </Suspense>
   );
 }
