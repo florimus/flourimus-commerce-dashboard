@@ -21,9 +21,20 @@ const ProductWarehouseForm: FC<ProductWarehouseFormProps> = ({
     <CardContent>
       <div className="grid grid-cols-3 gap-20">
         <div className="col-span-3 md:col-span-2 mt-5">
+          <div className="grid grid-cols-6 gap-10 py-5">
+            <div className="col-span-5 md:col-span-2 hidden md:block">
+              Warehouse Name
+            </div>
+            <div className="col-span-5 md:col-span-2 hidden md:block">
+              Total Stocks
+            </div>
+            <div className="col-span-5 md:col-span-2 hidden md:block">
+              Safty Stocks
+            </div>
+          </div>
           {Array.from({ length: count }).map((_, index) => (
-            <div className="grid grid-cols-3 gap-10 py-5">
-              <div className="col-span-3 md:col-span-1">
+            <div className="grid grid-cols-6 gap-10 py-5">
+              <div className="col-span-5 md:col-span-2">
                 {getValues(`warehouses.${index}.name`)}
               </div>
               <div className="col-span-3 md:col-span-2">
@@ -31,6 +42,16 @@ const ProductWarehouseForm: FC<ProductWarehouseFormProps> = ({
                   disabled={false}
                   {...register(
                     `warehouses.${index}.stockList.stocks.0.totalStocks`
+                  )}
+                  //   error={errors?.name?.message}
+                  type="number"
+                />
+              </div>
+              <div className="col-span-3 md:col-span-2">
+                <Input
+                  disabled={false}
+                  {...register(
+                    `warehouses.${index}.stockList.stocks.0.saftyStock`
                   )}
                   //   error={errors?.name?.message}
                   type="number"
