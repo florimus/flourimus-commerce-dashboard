@@ -15,6 +15,7 @@ import { OptionsValuesTypes } from '@/components/ui/options';
 interface ProductStockPriceProps {
   warehouses: Array<WarehouseType>;
   productId: string;
+  productStatus: boolean;
 }
 
 export interface ProductStockUpdateRequestTypes {
@@ -26,7 +27,8 @@ export interface ProductStockUpdateRequestTypes {
 
 const ProductStockPrice: FC<ProductStockPriceProps> = ({
   warehouses,
-  productId
+  productId,
+  productStatus
 }) => {
   const updateProductStock = async (
     formData: ProductStockUpdateRequestTypes[]
@@ -56,6 +58,7 @@ const ProductStockPrice: FC<ProductStockPriceProps> = ({
       onSubmit={updateProductStock}
       fetchWarehouses={fetchWarehouses}
       updateProductStatus={updateProductStatus}
+      productStatus={productStatus}
     >
       {(props) => (
         <Card>

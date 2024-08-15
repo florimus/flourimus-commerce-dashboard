@@ -5,7 +5,7 @@ import {
   ProductStockUpdateResponseType,
   WarehouseType
 } from 'core/type';
-import { FC, FormEventHandler, useCallback, useState } from 'react';
+import { FC, FormEventHandler, useCallback, useEffect, useState } from 'react';
 import {
   Control,
   FieldErrors,
@@ -42,13 +42,15 @@ const ProductStockForm: (
   ) => Promise<ProductStockUpdateResponseType>,
   productId: string,
   fetchWarehouses: () => Promise<any>,
-  updateProductStatus: () => Promise<ProductStatusChangeResponseType>
+  updateProductStatus: () => Promise<ProductStatusChangeResponseType>,
+  productStatus: boolean
 ) => ProductStockFormHandleProps = (
   initial,
   onSubmit,
   productId,
   fetchWarehouses,
-  updateProductStatus
+  updateProductStatus,
+  productStatus
 ) => {
   const {
     register,
@@ -67,7 +69,11 @@ const ProductStockForm: (
   const [warehouseOptions, setWarehouseOptions] = useState<
     OptionsValuesTypes[]
   >([]);
-  const [isActive, setActive] = useState<boolean>(false);
+  const [isActive, setActive] = useState<boolean>(productStatus);
+
+  useEffect(() => {
+    console.log({ productStatus });
+  }, [productStatus]);
 
   const { append } = useFieldArray({
     control,
@@ -146,6 +152,7 @@ interface FormProps {
   productId: string;
   fetchWarehouses: () => Promise<any>;
   updateProductStatus: () => Promise<ProductStatusChangeResponseType>;
+  productStatus: boolean;
 }
 
 const Form: FC<FormProps> = ({
@@ -154,14 +161,16 @@ const Form: FC<FormProps> = ({
   productId,
   onSubmit,
   fetchWarehouses,
-  updateProductStatus
+  updateProductStatus,
+  productStatus
 }) => {
   const props = ProductStockForm(
     initial,
     onSubmit,
     productId,
     fetchWarehouses,
-    updateProductStatus
+    updateProductStatus,
+    productStatus
   );
   return <form onSubmit={props.submit}>{children(props)}</form>;
 };

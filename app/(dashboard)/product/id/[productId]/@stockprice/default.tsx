@@ -1,5 +1,6 @@
 import {
   getProductDetails,
+  getProductStatus,
   getProductWarehouses
 } from '@/actions/catelogueActions';
 import Loader from '@/components/ui/loader';
@@ -19,6 +20,8 @@ export default async function ProductStockPricePage({
     // TODO: Not found page
   }
 
+  const productData = await getProductStatus(productId);
+
   const warehouses = (await getProductWarehouses(productId)) || {};
 
   if (isArrayEmpty(warehouses)) {
@@ -27,7 +30,11 @@ export default async function ProductStockPricePage({
 
   return (
     <Suspense fallback={<Loader />}>
-      <Product.ProductStockPrice warehouses={warehouses} productId={productId} />
+      <Product.ProductStockPrice
+        warehouses={warehouses}
+        productId={productId}
+        productStatus={productData?.isActive ?? false}
+      />
     </Suspense>
   );
 }

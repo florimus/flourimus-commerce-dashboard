@@ -1,0 +1,6 @@
+query ProductStatus($id: String!) {
+  product(_id: $id) {
+    _id
+    isActive
+  }
+}

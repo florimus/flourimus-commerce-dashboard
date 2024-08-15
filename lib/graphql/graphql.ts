@@ -828,6 +828,13 @@ export type ProductListQueryVariables = Exact<{
 
 export type ProductListQuery = { __typename?: 'Query', productList?: { __typename?: 'ProductList', products?: Array<{ __typename?: 'Product', _id?: string | null, name?: string | null, medias?: Array<string | null> | null, category?: string | null, brand?: string | null, haveVariants?: boolean | null, isVariant?: boolean | null, isSellable?: boolean | null, variantInfo?: Array<string | null> | null, createdAt?: string | null, updatedAt?: string | null, isActive?: boolean | null, availableStocks?: number | null, variants?: Array<{ __typename?: 'Product', _id?: string | null } | null> | null, price?: { __typename?: 'ProductPrice', sellPrice?: number | null } | null } | null> | null, pageInfo?: { __typename?: 'ProductPageInfo', currentMatchs?: number | null, isEnd?: boolean | null, isStart?: boolean | null, totalMatches?: number | null, totalPages?: number | null } | null } | null };
 
+export type ProductStatusQueryVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type ProductStatusQuery = { __typename?: 'Query', product?: { __typename?: 'Product', _id?: string | null, isActive?: boolean | null } | null };
+
 export type WarehousesWithProductQueryVariables = Exact<{
   productId: Scalars['String']['input'];
 }>;
@@ -1030,6 +1037,14 @@ export const ProductListDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<ProductListQuery, ProductListQueryVariables>;
+export const ProductStatusDocument = new TypedDocumentString(`
+    query ProductStatus($id: String!) {
+  product(_id: $id) {
+    _id
+    isActive
+  }
+}
+    `) as unknown as TypedDocumentString<ProductStatusQuery, ProductStatusQueryVariables>;
 export const WarehousesWithProductDocument = new TypedDocumentString(`
     query WarehousesWithProduct($productId: String!) {
   warehousesWithProduct(productId: $productId) {
