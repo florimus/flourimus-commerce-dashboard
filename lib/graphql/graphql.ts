@@ -836,6 +836,13 @@ export type UserTokenQueryVariables = Exact<{
 
 export type UserTokenQuery = { __typename?: 'Query', token?: { __typename?: 'Token', access: string, refresh: string } | null };
 
+export type WarehouseListQueryVariables = Exact<{
+  warehouseListInput?: InputMaybe<WarehouseListInput>;
+}>;
+
+
+export type WarehouseListQuery = { __typename?: 'Query', warehouseList?: { __typename?: 'WarehouseList', warehouses?: Array<{ __typename?: 'Warehouse', _id?: string | null, name?: string | null, country?: string | null, createdAt?: string | null, updatedAt?: string | null, isActive?: boolean | null, createdBy?: string | null, updatedBy?: string | null, metaStatus?: string | null } | null> | null, pageInfo?: { __typename?: 'WarehousePageInfo', isStart?: boolean | null, isEnd?: boolean | null } | null } | null };
+
 export class TypedDocumentString<TResult, TVariables>
   extends String
   implements DocumentTypeDecoration<TResult, TVariables>
@@ -1036,3 +1043,24 @@ export const UserTokenDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<UserTokenQuery, UserTokenQueryVariables>;
+export const WarehouseListDocument = new TypedDocumentString(`
+    query WarehouseList($warehouseListInput: WarehouseListInput) {
+  warehouseList(warehouseListInput: $warehouseListInput) {
+    warehouses {
+      _id
+      name
+      country
+      createdAt
+      updatedAt
+      isActive
+      createdBy
+      updatedBy
+      metaStatus
+    }
+    pageInfo {
+      isStart
+      isEnd
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<WarehouseListQuery, WarehouseListQueryVariables>;

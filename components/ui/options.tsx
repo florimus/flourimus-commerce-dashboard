@@ -1,5 +1,4 @@
 import { isArrayNotEmpty } from '@/lib/utils';
-import { ProductCreateInputForm } from '@/src/product/components/productCreate/form';
 import { FC } from 'react';
 import { Control, Controller } from 'react-hook-form';
 

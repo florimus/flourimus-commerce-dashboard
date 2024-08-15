@@ -8,6 +8,7 @@ import {
   ProductListDocument,
   ProductStockEntryDocument,
   ProductUpdateDocument,
+  WarehouseListDocument,
   WarehousesWithProductDocument
 } from '@/lib/graphql/graphql';
 import { ProductCreateInputForm } from '@/src/product/components/productCreate/form';
@@ -15,6 +16,7 @@ import { ProductUpdateInputForm } from '@/src/product/components/productDetails/
 import { ProductStockUpdateRequestTypes } from '@/src/product/view/productStockPrice';
 import { gql } from '@apollo/client';
 import {
+  ListProductWarehousesType,
   ProductDetailsAPIResponseType,
   ProductListType,
   ProductResponseAPIType,
@@ -187,5 +189,30 @@ export const getProductStockUpdate: (
     return {
       error: error?.cause?.message || 'INTERNAL_SERVER_ERROR'
     } as ProductStockUpdateResponseType;
+  }
+};
+
+export const listProductWarehouses: (
+  search: string,
+  page: number
+) => Promise<ListProductWarehousesType> = async (search = '', page = 0) => {
+  try {
+    const { data } = await client.query({
+      query: gql`
+        ${WarehouseListDocument}
+      `,
+      variables: {
+        warehouseListInput: {
+          search,
+          page,
+          size: 20
+        }
+      }
+    });
+    return data?.warehouseList;
+  } catch (error: any) {
+    return {
+      error: error?.cause?.message || 'INTERNAL_SERVER_ERROR'
+    } as ListProductWarehousesType;
   }
 };

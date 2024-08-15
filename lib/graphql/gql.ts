@@ -21,6 +21,7 @@ const documents = {
     "query ProductList($productListInput: ProductListInput) {\n  productList(productListInput: $productListInput) {\n    products {\n      _id\n      name\n      medias\n      category\n      brand\n      haveVariants\n      isVariant\n      isSellable\n      variantInfo\n      createdAt\n      updatedAt\n      isActive\n      variants {\n        _id\n      }\n      price {\n        sellPrice\n      }\n      availableStocks\n    }\n    pageInfo {\n      currentMatchs\n      isEnd\n      isStart\n      totalMatches\n      totalPages\n    }\n  }\n}": types.ProductListDocument,
     "query WarehousesWithProduct($productId: String!) {\n  warehousesWithProduct(productId: $productId) {\n    _id\n    name\n    isActive\n    country\n    stockList(stockListInput: {search: $productId}) {\n      stocks {\n        productId\n        totalStocks\n        saftyStock\n        allocatedStocks\n      }\n    }\n  }\n}": types.WarehousesWithProductDocument,
     "query UserToken($email: String, $password: String) {\n  token(\n    tokenRequestInput: {email: $email, password: $password, grandType: \"password\"}\n  ) {\n    access\n    refresh\n  }\n}": types.UserTokenDocument,
+    "query WarehouseList($warehouseListInput: WarehouseListInput) {\n  warehouseList(warehouseListInput: $warehouseListInput) {\n    warehouses {\n      _id\n      name\n      country\n      createdAt\n      updatedAt\n      isActive\n      createdBy\n      updatedBy\n      metaStatus\n    }\n    pageInfo {\n      isStart\n      isEnd\n    }\n  }\n}": types.WarehouseListDocument,
 };
 
 /**
@@ -51,6 +52,10 @@ export function graphql(source: "query WarehousesWithProduct($productId: String!
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "query UserToken($email: String, $password: String) {\n  token(\n    tokenRequestInput: {email: $email, password: $password, grandType: \"password\"}\n  ) {\n    access\n    refresh\n  }\n}"): typeof import('./graphql').UserTokenDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "query WarehouseList($warehouseListInput: WarehouseListInput) {\n  warehouseList(warehouseListInput: $warehouseListInput) {\n    warehouses {\n      _id\n      name\n      country\n      createdAt\n      updatedAt\n      isActive\n      createdBy\n      updatedBy\n      metaStatus\n    }\n    pageInfo {\n      isStart\n      isEnd\n    }\n  }\n}"): typeof import('./graphql').WarehouseListDocument;
 
 
 export function graphql(source: string) {

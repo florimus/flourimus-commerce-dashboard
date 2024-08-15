@@ -10,6 +10,7 @@ import {
   UseFormRegister
 } from 'react-hook-form';
 import { ProductStockUpdateRequestTypes } from '../../view/productStockPrice';
+import { OptionsValuesTypes } from '@/components/ui/options';
 
 interface ProductStockFormHandleProps {
   register: UseFormRegister<FormDataType>;
@@ -19,6 +20,7 @@ interface ProductStockFormHandleProps {
   submitting: boolean;
   addEmptyWarehouseItem: () => void;
   control: Control<FormDataType>;
+  warehouseOptions: OptionsValuesTypes[]
 
   //   register: UseFormRegister<ProductUpdateInputForm>;
   //   errors: FieldErrors<ProductUpdateInputForm>;
@@ -44,8 +46,14 @@ const ProductStockForm: (
   onSubmit: (
     formData: ProductStockUpdateRequestTypes[]
   ) => Promise<ProductStockUpdateResponseType>,
-  productId: string
-) => ProductStockFormHandleProps = (initial, onSubmit, productId) => {
+  productId: string,
+  fetchWarehouses: () => Promise<any>
+) => ProductStockFormHandleProps = (
+  initial,
+  onSubmit,
+  productId,
+  fetchWarehouses
+) => {
   const {
     register,
     handleSubmit,
@@ -62,13 +70,16 @@ const ProductStockForm: (
   });
 
   const [submitting, setSubmitting] = useState<boolean>(false);
+  const [warehouseOptions, setWarehouseOptions] = useState<
+    OptionsValuesTypes[]
+  >([]);
 
   const { append } = useFieldArray({
     control,
     name: 'warehouses'
   });
 
-  const addEmptyWarehouseItem = () => {
+  const addEmptyWarehouseItem = async () => {
     append({
       _id: '',
       name: '',
@@ -89,6 +100,8 @@ const ProductStockForm: (
       createdBy: '',
       updatedBy: ''
     });
+    const options = await fetchWarehouses();
+    setWarehouseOptions(options);
   };
 
   const submit = async (formdata: FormDataType) => {
@@ -119,7 +132,8 @@ const ProductStockForm: (
     count: isArrayNotEmpty(getValues('warehouses'))
       ? getValues('warehouses').length
       : 0,
-    addEmptyWarehouseItem
+    addEmptyWarehouseItem,
+    warehouseOptions
   };
 };
 
@@ -130,10 +144,17 @@ interface FormProps {
   children: (props: ProductStockFormHandleProps) => React.ReactNode;
   initial: Array<WarehouseType>;
   productId: string;
+  fetchWarehouses: () => Promise<any>;
 }
 
-const Form: FC<FormProps> = ({ children, initial, productId, onSubmit }) => {
-  const props = ProductStockForm(initial, onSubmit, productId);
+const Form: FC<FormProps> = ({
+  children,
+  initial,
+  productId,
+  onSubmit,
+  fetchWarehouses
+}) => {
+  const props = ProductStockForm(initial, onSubmit, productId, fetchWarehouses);
   return <form onSubmit={props.submit}>{children(props)}</form>;
 };
 

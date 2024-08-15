@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input';
 import { FC } from 'react';
 import { Control, UseFormGetValues, UseFormRegister } from 'react-hook-form';
 import { FormDataType } from './form';
-import Options from '@/components/ui/options';
+import Options, { OptionsValuesTypes } from '@/components/ui/options';
 
 interface ProductWarehouseFormProps {
   register: UseFormRegister<FormDataType>;
@@ -12,6 +12,7 @@ interface ProductWarehouseFormProps {
   count: number;
   addEmptyWarehouseItem: () => void;
   control: Control<FormDataType>;
+  warehouseOptions: OptionsValuesTypes[];
 }
 
 const ProductWarehouseForm: FC<ProductWarehouseFormProps> = ({
@@ -19,7 +20,8 @@ const ProductWarehouseForm: FC<ProductWarehouseFormProps> = ({
   getValues,
   count,
   control,
-  addEmptyWarehouseItem
+  addEmptyWarehouseItem,
+  warehouseOptions
 }) => {
   return (
     <CardContent>
@@ -46,16 +48,7 @@ const ProductWarehouseForm: FC<ProductWarehouseFormProps> = ({
                     name={`warehouses.${index}._id`}
                     control={control}
                     // error={errors?.brand?.message}
-                    options={[
-                      {
-                        label: 'lab',
-                        value: 'val'
-                      },
-                      {
-                        label: 'lab1',
-                        value: 'val2'
-                      }
-                    ]}
+                    options={warehouseOptions}
                   />
                 )}
               </div>
