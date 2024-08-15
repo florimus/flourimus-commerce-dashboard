@@ -2,7 +2,12 @@ import { Button } from '@/components/ui/button';
 import { CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { FC } from 'react';
-import { Control, UseFormGetValues, UseFormRegister } from 'react-hook-form';
+import {
+  Control,
+  FieldErrors,
+  UseFormGetValues,
+  UseFormRegister
+} from 'react-hook-form';
 import { FormDataType } from './form';
 import Options, { OptionsValuesTypes } from '@/components/ui/options';
 
@@ -13,6 +18,7 @@ interface ProductWarehouseFormProps {
   addEmptyWarehouseItem: () => void;
   control: Control<FormDataType>;
   warehouseOptions: OptionsValuesTypes[];
+  errors: FieldErrors<FormDataType>;
 }
 
 const ProductWarehouseForm: FC<ProductWarehouseFormProps> = ({
@@ -21,7 +27,8 @@ const ProductWarehouseForm: FC<ProductWarehouseFormProps> = ({
   count,
   control,
   addEmptyWarehouseItem,
-  warehouseOptions
+  warehouseOptions,
+  errors
 }) => {
   return (
     <CardContent>
@@ -47,7 +54,7 @@ const ProductWarehouseForm: FC<ProductWarehouseFormProps> = ({
                   <Options
                     name={`warehouses.${index}._id`}
                     control={control}
-                    // error={errors?.brand?.message}
+                    error={errors?.warehouses?.[index]?._id?.message}
                     options={warehouseOptions}
                   />
                 )}
@@ -58,7 +65,10 @@ const ProductWarehouseForm: FC<ProductWarehouseFormProps> = ({
                   {...register(
                     `warehouses.${index}.stockList.stocks.0.totalStocks`
                   )}
-                  //   error={errors?.name?.message}
+                  error={
+                    errors?.warehouses?.[index]?.stockList?.stocks?.[0]
+                      ?.totalStocks?.message
+                  }
                   type="number"
                 />
               </div>
@@ -68,7 +78,10 @@ const ProductWarehouseForm: FC<ProductWarehouseFormProps> = ({
                   {...register(
                     `warehouses.${index}.stockList.stocks.0.saftyStock`
                   )}
-                  //   error={errors?.name?.message}
+                  error={
+                    errors?.warehouses?.[index]?.stockList?.stocks?.[0]
+                      ?.saftyStock?.message
+                  }
                   type="number"
                 />
               </div>

@@ -7,9 +7,9 @@ import ProductWarehouseForm from '../components/productStockPrice/productWarehou
 import FormData from '../components/productStockPrice/form';
 import {
   getProductStockUpdate,
-  listProductWarehouses
+  listProductWarehouses,
+  toggleProductStatus
 } from '@/actions/catelogueActions';
-import AssignNewWarehouseModal from '../components/productStockPrice/assignNewWarehouseModal';
 import { isNonEmptyArray } from '@apollo/client/utilities';
 import { OptionsValuesTypes } from '@/components/ui/options';
 interface ProductStockPriceProps {
@@ -44,16 +44,26 @@ const ProductStockPrice: FC<ProductStockPriceProps> = ({
       }
       return [];
     }, []);
+
+  const updateProductStatus = async () => {
+    return await toggleProductStatus(productId);
+  };
+
   return (
     <FormData
       initial={warehouses}
       productId={productId}
       onSubmit={updateProductStock}
       fetchWarehouses={fetchWarehouses}
+      updateProductStatus={updateProductStatus}
     >
       {(props) => (
         <Card>
-          <ProductStockPriceDetails submitting={props.submitting} />
+          <ProductStockPriceDetails
+            submitting={props.submitting}
+            changeProductStatus={props.changeProductStatus}
+            isActive={props.isActive}
+          />
           <ProductWarehouseForm {...props} />
         </Card>
       )}

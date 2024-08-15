@@ -1,0 +1,6 @@
+mutation ProductStatusChange($id: ID!) {
+  productStatusChange(_id: $id) {
+    success
+    status
+  }
+}

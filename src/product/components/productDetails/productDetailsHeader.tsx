@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import Loader from '@/components/ui/loader';
-import { PlusCircle, StepBack } from 'lucide-react';
+import { Save, StepBack } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { FC, useTransition } from 'react';
@@ -60,7 +60,7 @@ const ProductDetailsHeader: FC<ProductDetailsHeaderProps> = ({
             </Button>
           ) : (
             <Button size="sm" type="submit" className="h-8 gap-1">
-              <PlusCircle className="h-3.5 w-3.5" />
+              <Save className="h-3.5 w-3.5" />
               <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
                 Update Product
               </span>

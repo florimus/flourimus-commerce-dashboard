@@ -6,6 +6,7 @@ import {
   ProductCreateDocument,
   ProductDocument,
   ProductListDocument,
+  ProductStatusChangeDocument,
   ProductStockEntryDocument,
   ProductUpdateDocument,
   WarehouseListDocument,
@@ -20,6 +21,7 @@ import {
   ProductDetailsAPIResponseType,
   ProductListType,
   ProductResponseAPIType,
+  ProductStatusChangeResponseType,
   ProductStockUpdateResponseType,
   ProductType,
   ProductWarehouseAPIResponseType
@@ -214,5 +216,25 @@ export const listProductWarehouses: (
     return {
       error: error?.cause?.message || 'INTERNAL_SERVER_ERROR'
     } as ListProductWarehousesType;
+  }
+};
+
+export const toggleProductStatus: (
+  id: string
+) => Promise<ProductStatusChangeResponseType> = async (id) => {
+  try {
+    const { data } = await client.query({
+      query: gql`
+        ${ProductStatusChangeDocument}
+      `,
+      variables: {
+        id
+      }
+    });
+    return data?.productStatusChange as ProductStatusChangeResponseType;
+  } catch (error: any) {
+    return {
+      error: error?.cause?.message || 'INTERNAL_SERVER_ERROR'
+    } as ProductStatusChangeResponseType;
   }
 };

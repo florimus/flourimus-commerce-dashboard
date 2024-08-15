@@ -112,3 +112,8 @@ export interface ListProductWarehousesType extends APIErrorResponseType {
 export interface ProductStockUpdateResponseType extends APIErrorResponseType {
   success: boolean;
 }
+
+export interface ProductStatusChangeResponseType extends APIErrorResponseType {
+  success: boolean;
+  status: boolean;
+}

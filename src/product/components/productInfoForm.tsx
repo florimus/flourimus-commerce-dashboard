@@ -47,6 +47,8 @@ const ProductInfoForm: FC<ProductInfoFormProps> = ({
   removeImage,
   isUpdatePage
 }) => {
+  console.log({ errors });
+
   const imageRef = useRef<HTMLInputElement>(null);
   return (
     <CardContent>
