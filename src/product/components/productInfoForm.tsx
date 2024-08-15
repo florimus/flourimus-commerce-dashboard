@@ -30,6 +30,7 @@ interface ProductInfoFormProps {
   imageLoading: boolean;
   medias: string[];
   removeImage: (index: number) => void;
+  isUpdatePage?: boolean;
 }
 
 const ProductInfoForm: FC<ProductInfoFormProps> = ({
@@ -43,8 +44,11 @@ const ProductInfoForm: FC<ProductInfoFormProps> = ({
   upload,
   imageLoading,
   medias,
-  removeImage
+  removeImage,
+  isUpdatePage
 }) => {
+  console.log({ errors });
+
   const imageRef = useRef<HTMLInputElement>(null);
   return (
     <CardContent>
@@ -127,7 +131,18 @@ const ProductInfoForm: FC<ProductInfoFormProps> = ({
           <div className="grid grid-cols-3 gap-10 py-5">
             <div className="col-span-3 md:col-span-1">Make it as variant</div>
             <div className="col-span-3 md:col-span-2">
-              <Toggle {...register('isVariant')} />
+              <Toggle disabled={isUpdatePage} {...register('isVariant')} />
+              {isUpdatePage && (
+                <Tooltip>
+                  <TooltipTrigger>
+                    <BadgeInfo className="mb-1 ms-2" size={18} />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    Product type cannot be edited. <br /> It determind while
+                    creating the product
+                  </TooltipContent>
+                </Tooltip>
+              )}
             </div>
           </div>
 
@@ -138,6 +153,7 @@ const ProductInfoForm: FC<ProductInfoFormProps> = ({
                 <Options
                   name="parentId"
                   control={control}
+                  disabled={isUpdatePage}
                   error={errors?.parentId?.message}
                   options={[
                     {

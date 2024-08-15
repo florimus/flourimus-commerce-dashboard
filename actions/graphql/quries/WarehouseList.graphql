@@ -1,0 +1,19 @@
+query WarehouseList($warehouseListInput: WarehouseListInput) {
+  warehouseList(warehouseListInput: $warehouseListInput) {
+    warehouses {
+      _id
+      name
+      country
+      createdAt
+      updatedAt
+      isActive
+      createdBy
+      updatedBy
+      metaStatus
+    }
+    pageInfo {
+      isStart
+      isEnd
+    }
+  }
+}

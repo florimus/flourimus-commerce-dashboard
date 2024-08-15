@@ -1,16 +1,22 @@
 import { Button } from '@/components/ui/button';
-import { CardHeader, CardTitle } from '@/components/ui/card';
+import { CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import Loader from '@/components/ui/loader';
-import { PlusCircle, StepBack } from 'lucide-react';
+import { Save, StepBack } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { FC, useTransition } from 'react';
 
-interface ProductCreateHeaderProps {
+interface ProductDetailsHeaderProps {
   submitting: boolean;
+  name: string;
+  id: string;
 }
 
-const ProductCreateHeader: FC<ProductCreateHeaderProps> = ({ submitting }) => {
+const ProductDetailsHeader: FC<ProductDetailsHeaderProps> = ({
+  submitting,
+  name,
+  id
+}) => {
   const [transition, setTransition] = useTransition();
 
   const router = useRouter();
@@ -24,7 +30,10 @@ const ProductCreateHeader: FC<ProductCreateHeaderProps> = ({ submitting }) => {
   return (
     <CardHeader>
       <div className="flex justify-between">
-        <CardTitle>Create Product</CardTitle>
+        <div>
+          <CardTitle>{name}</CardTitle>
+          <CardDescription>{id}</CardDescription>
+        </div>
         <div className="flex align-middle">
           {transition && <Loader />}
           <Button
@@ -51,9 +60,9 @@ const ProductCreateHeader: FC<ProductCreateHeaderProps> = ({ submitting }) => {
             </Button>
           ) : (
             <Button size="sm" type="submit" className="h-8 gap-1">
-              <PlusCircle className="h-3.5 w-3.5" />
+              <Save className="h-3.5 w-3.5" />
               <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                Create Product
+                Update Product
               </span>
             </Button>
           )}
@@ -63,4 +72,4 @@ const ProductCreateHeader: FC<ProductCreateHeaderProps> = ({ submitting }) => {
   );
 };
 
-export default ProductCreateHeader;
+export default ProductDetailsHeader;

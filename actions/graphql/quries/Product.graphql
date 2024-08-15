@@ -1,0 +1,51 @@
+query Product($id: String!) {
+  product(_id: $id) {
+    _id
+    name
+    medias
+    shortDescription
+    description
+    parentId
+    category
+    brand
+    haveVariants
+    isVariant
+    isSellable
+    isCodAvailable
+    variantInfo
+    createdAt
+    updatedAt
+    isActive
+    createdBy
+    updatedBy
+    metaStatus
+    availableStocks
+    variants {
+      _id
+      name
+      medias
+      category
+      brand
+      haveVariants
+      isVariant
+      isSellable
+      variantInfo
+      createdAt
+      updatedAt
+      isActive
+      variants {
+        _id
+      }
+      price {
+        sellPrice
+      }
+      availableStocks
+    }
+    price {
+      productId
+      listPrice
+      sellPrice
+      taxPrice
+    }
+  }
+}

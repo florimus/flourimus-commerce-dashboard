@@ -480,6 +480,7 @@ export type Query = {
   verifyInvitation?: Maybe<User>;
   warehouse?: Maybe<Warehouse>;
   warehouseList?: Maybe<WarehouseList>;
+  warehousesWithProduct?: Maybe<Array<Maybe<Warehouse>>>;
 };
 
 
@@ -551,6 +552,11 @@ export type QueryWarehouseArgs = {
 
 export type QueryWarehouseListArgs = {
   warehouseListInput?: InputMaybe<WarehouseListInput>;
+};
+
+
+export type QueryWarehousesWithProductArgs = {
+  productId: Scalars['String']['input'];
 };
 
 export type ResetPassword = {
@@ -786,12 +792,55 @@ export type ProductCreateMutationVariables = Exact<{
 
 export type ProductCreateMutation = { __typename?: 'Mutation', productCreate?: { __typename?: 'Product', _id?: string | null } | null };
 
+export type ProductStatusChangeMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type ProductStatusChangeMutation = { __typename?: 'Mutation', productStatusChange?: { __typename?: 'ProductStatusChangeResponse', success?: boolean | null, status?: boolean | null } | null };
+
+export type ProductStockEntryMutationVariables = Exact<{
+  productStockEntryInput: ProductStockEntryInput;
+}>;
+
+
+export type ProductStockEntryMutation = { __typename?: 'Mutation', productStockEntry?: { __typename?: 'ProductStocks', productId?: string | null, totalStocks?: number | null, saftyStock?: number | null, allocatedStocks?: number | null } | null };
+
+export type ProductUpdateMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  productUpdateInput?: InputMaybe<ProductUpdateInput>;
+}>;
+
+
+export type ProductUpdateMutation = { __typename?: 'Mutation', productUpdate?: { __typename?: 'Product', _id?: string | null, name?: string | null, medias?: Array<string | null> | null, shortDescription?: string | null, description?: string | null, parentId?: string | null, category?: string | null, brand?: string | null, haveVariants?: boolean | null, isVariant?: boolean | null, isSellable?: boolean | null, isCodAvailable?: boolean | null, variantInfo?: Array<string | null> | null, createdAt?: string | null, updatedAt?: string | null, isActive?: boolean | null, createdBy?: string | null, updatedBy?: string | null, metaStatus?: string | null, availableStocks?: number | null, variants?: Array<{ __typename?: 'Product', _id?: string | null, name?: string | null, medias?: Array<string | null> | null, category?: string | null, brand?: string | null, haveVariants?: boolean | null, isVariant?: boolean | null, isSellable?: boolean | null, variantInfo?: Array<string | null> | null, createdAt?: string | null, updatedAt?: string | null, isActive?: boolean | null, availableStocks?: number | null, variants?: Array<{ __typename?: 'Product', _id?: string | null } | null> | null, price?: { __typename?: 'ProductPrice', sellPrice?: number | null } | null } | null> | null, price?: { __typename?: 'ProductPrice', productId?: string | null, listPrice?: number | null, sellPrice?: number | null, taxPrice?: number | null } | null } | null };
+
+export type ProductQueryVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type ProductQuery = { __typename?: 'Query', product?: { __typename?: 'Product', _id?: string | null, name?: string | null, medias?: Array<string | null> | null, shortDescription?: string | null, description?: string | null, parentId?: string | null, category?: string | null, brand?: string | null, haveVariants?: boolean | null, isVariant?: boolean | null, isSellable?: boolean | null, isCodAvailable?: boolean | null, variantInfo?: Array<string | null> | null, createdAt?: string | null, updatedAt?: string | null, isActive?: boolean | null, createdBy?: string | null, updatedBy?: string | null, metaStatus?: string | null, availableStocks?: number | null, variants?: Array<{ __typename?: 'Product', _id?: string | null, name?: string | null, medias?: Array<string | null> | null, category?: string | null, brand?: string | null, haveVariants?: boolean | null, isVariant?: boolean | null, isSellable?: boolean | null, variantInfo?: Array<string | null> | null, createdAt?: string | null, updatedAt?: string | null, isActive?: boolean | null, availableStocks?: number | null, variants?: Array<{ __typename?: 'Product', _id?: string | null } | null> | null, price?: { __typename?: 'ProductPrice', sellPrice?: number | null } | null } | null> | null, price?: { __typename?: 'ProductPrice', productId?: string | null, listPrice?: number | null, sellPrice?: number | null, taxPrice?: number | null } | null } | null };
+
 export type ProductListQueryVariables = Exact<{
   productListInput?: InputMaybe<ProductListInput>;
 }>;
 
 
 export type ProductListQuery = { __typename?: 'Query', productList?: { __typename?: 'ProductList', products?: Array<{ __typename?: 'Product', _id?: string | null, name?: string | null, medias?: Array<string | null> | null, category?: string | null, brand?: string | null, haveVariants?: boolean | null, isVariant?: boolean | null, isSellable?: boolean | null, variantInfo?: Array<string | null> | null, createdAt?: string | null, updatedAt?: string | null, isActive?: boolean | null, availableStocks?: number | null, variants?: Array<{ __typename?: 'Product', _id?: string | null } | null> | null, price?: { __typename?: 'ProductPrice', sellPrice?: number | null } | null } | null> | null, pageInfo?: { __typename?: 'ProductPageInfo', currentMatchs?: number | null, isEnd?: boolean | null, isStart?: boolean | null, totalMatches?: number | null, totalPages?: number | null } | null } | null };
+
+export type ProductStatusQueryVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type ProductStatusQuery = { __typename?: 'Query', product?: { __typename?: 'Product', _id?: string | null, isActive?: boolean | null } | null };
+
+export type WarehousesWithProductQueryVariables = Exact<{
+  productId: Scalars['String']['input'];
+}>;
+
+
+export type WarehousesWithProductQuery = { __typename?: 'Query', warehousesWithProduct?: Array<{ __typename?: 'Warehouse', _id?: string | null, name?: string | null, isActive?: boolean | null, country?: string | null, stockList?: { __typename?: 'StockList', stocks?: Array<{ __typename?: 'ProductStocks', productId?: string | null, totalStocks?: number | null, saftyStock?: number | null, allocatedStocks?: number | null } | null> | null } | null } | null> | null };
 
 export type UserTokenQueryVariables = Exact<{
   email?: InputMaybe<Scalars['String']['input']>;
@@ -800,6 +849,13 @@ export type UserTokenQueryVariables = Exact<{
 
 
 export type UserTokenQuery = { __typename?: 'Query', token?: { __typename?: 'Token', access: string, refresh: string } | null };
+
+export type WarehouseListQueryVariables = Exact<{
+  warehouseListInput?: InputMaybe<WarehouseListInput>;
+}>;
+
+
+export type WarehouseListQuery = { __typename?: 'Query', warehouseList?: { __typename?: 'WarehouseList', warehouses?: Array<{ __typename?: 'Warehouse', _id?: string | null, name?: string | null, country?: string | null, createdAt?: string | null, updatedAt?: string | null, isActive?: boolean | null, createdBy?: string | null, updatedBy?: string | null, metaStatus?: string | null } | null> | null, pageInfo?: { __typename?: 'WarehousePageInfo', isStart?: boolean | null, isEnd?: boolean | null } | null } | null };
 
 export class TypedDocumentString<TResult, TVariables>
   extends String
@@ -823,6 +879,130 @@ export const ProductCreateDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<ProductCreateMutation, ProductCreateMutationVariables>;
+export const ProductStatusChangeDocument = new TypedDocumentString(`
+    mutation ProductStatusChange($id: ID!) {
+  productStatusChange(_id: $id) {
+    success
+    status
+  }
+}
+    `) as unknown as TypedDocumentString<ProductStatusChangeMutation, ProductStatusChangeMutationVariables>;
+export const ProductStockEntryDocument = new TypedDocumentString(`
+    mutation ProductStockEntry($productStockEntryInput: ProductStockEntryInput!) {
+  productStockEntry(productStockEntryInput: $productStockEntryInput) {
+    productId
+    totalStocks
+    saftyStock
+    allocatedStocks
+  }
+}
+    `) as unknown as TypedDocumentString<ProductStockEntryMutation, ProductStockEntryMutationVariables>;
+export const ProductUpdateDocument = new TypedDocumentString(`
+    mutation ProductUpdate($id: ID!, $productUpdateInput: ProductUpdateInput) {
+  productUpdate(_id: $id, productUpdateInput: $productUpdateInput) {
+    _id
+    name
+    medias
+    shortDescription
+    description
+    parentId
+    category
+    brand
+    haveVariants
+    isVariant
+    isSellable
+    isCodAvailable
+    variantInfo
+    createdAt
+    updatedAt
+    isActive
+    createdBy
+    updatedBy
+    metaStatus
+    availableStocks
+    variants {
+      _id
+      name
+      medias
+      category
+      brand
+      haveVariants
+      isVariant
+      isSellable
+      variantInfo
+      createdAt
+      updatedAt
+      isActive
+      variants {
+        _id
+      }
+      price {
+        sellPrice
+      }
+      availableStocks
+    }
+    price {
+      productId
+      listPrice
+      sellPrice
+      taxPrice
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<ProductUpdateMutation, ProductUpdateMutationVariables>;
+export const ProductDocument = new TypedDocumentString(`
+    query Product($id: String!) {
+  product(_id: $id) {
+    _id
+    name
+    medias
+    shortDescription
+    description
+    parentId
+    category
+    brand
+    haveVariants
+    isVariant
+    isSellable
+    isCodAvailable
+    variantInfo
+    createdAt
+    updatedAt
+    isActive
+    createdBy
+    updatedBy
+    metaStatus
+    availableStocks
+    variants {
+      _id
+      name
+      medias
+      category
+      brand
+      haveVariants
+      isVariant
+      isSellable
+      variantInfo
+      createdAt
+      updatedAt
+      isActive
+      variants {
+        _id
+      }
+      price {
+        sellPrice
+      }
+      availableStocks
+    }
+    price {
+      productId
+      listPrice
+      sellPrice
+      taxPrice
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<ProductQuery, ProductQueryVariables>;
 export const ProductListDocument = new TypedDocumentString(`
     query ProductList($productListInput: ProductListInput) {
   productList(productListInput: $productListInput) {
@@ -857,6 +1037,32 @@ export const ProductListDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<ProductListQuery, ProductListQueryVariables>;
+export const ProductStatusDocument = new TypedDocumentString(`
+    query ProductStatus($id: String!) {
+  product(_id: $id) {
+    _id
+    isActive
+  }
+}
+    `) as unknown as TypedDocumentString<ProductStatusQuery, ProductStatusQueryVariables>;
+export const WarehousesWithProductDocument = new TypedDocumentString(`
+    query WarehousesWithProduct($productId: String!) {
+  warehousesWithProduct(productId: $productId) {
+    _id
+    name
+    isActive
+    country
+    stockList(stockListInput: {search: $productId}) {
+      stocks {
+        productId
+        totalStocks
+        saftyStock
+        allocatedStocks
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<WarehousesWithProductQuery, WarehousesWithProductQueryVariables>;
 export const UserTokenDocument = new TypedDocumentString(`
     query UserToken($email: String, $password: String) {
   token(
@@ -867,3 +1073,24 @@ export const UserTokenDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<UserTokenQuery, UserTokenQueryVariables>;
+export const WarehouseListDocument = new TypedDocumentString(`
+    query WarehouseList($warehouseListInput: WarehouseListInput) {
+  warehouseList(warehouseListInput: $warehouseListInput) {
+    warehouses {
+      _id
+      name
+      country
+      createdAt
+      updatedAt
+      isActive
+      createdBy
+      updatedBy
+      metaStatus
+    }
+    pageInfo {
+      isStart
+      isEnd
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<WarehouseListQuery, WarehouseListQueryVariables>;

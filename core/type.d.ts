@@ -34,7 +34,7 @@ export interface PageInfoType {
   totalPages: number;
 }
 
-export interface ProductVariantsType {
+export interface ProductVariantsType extends ProductType {
   _id: string;
 }
 
@@ -72,7 +72,48 @@ export interface ProductResponseAPIType
   extends ProductType,
     APIErrorResponseType {}
 
+export interface ProductDetailsAPIResponseType extends APIErrorResponseType {
+  product: ProductType;
+}
+
 export interface ProductListType extends APIErrorResponseType {
   products: ProductType[];
   pageInfo: Partial<PageInfoType>;
+}
+
+export interface ProductStockType {
+  productId: string;
+  totalStocks: number;
+  saftyStock: number;
+  allocatedStocks: number;
+}
+
+export interface WarehouseType {
+  _id: string;
+  name: string;
+  stockList?: { stocks: ProductStockType[] };
+  country: string;
+  createdAt: string;
+  updatedAt: string;
+  isActive: boolean;
+  createdBy: string;
+  updatedBy: string;
+  metaStatus?: string;
+}
+
+export interface ProductWarehouseAPIResponseType
+  extends Array<WarehouseType>,
+    APIErrorResponseType {}
+
+export interface ListProductWarehousesType extends APIErrorResponseType {
+  warehouses: Array<WarehouseType>;
+}
+
+export interface ProductStockUpdateResponseType extends APIErrorResponseType {
+  success: boolean;
+}
+
+export interface ProductStatusChangeResponseType extends APIErrorResponseType {
+  success: boolean;
+  status: boolean;
 }

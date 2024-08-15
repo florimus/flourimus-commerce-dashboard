@@ -1,7 +1,9 @@
 import { getProducts } from '@/actions/catelogueActions';
+import Loader from '@/components/ui/loader';
 import { paginationConstants } from '@/constants/constants';
 import Product from '@/src/product';
 import { ProductListType } from 'core/type';
+import { Suspense } from 'react';
 
 export default async function ProductsPage({
   searchParams
@@ -12,7 +14,7 @@ export default async function ProductsPage({
   const search = searchParams.q ?? '';
   const page = Number(searchParams.p ?? 0);
   const size = Number(searchParams.s ?? paginationConstants.limits[1]);
-  const sortBy = '_id';
+  const sortBy = 'updatedAt';
   const sortDirection = searchParams.d ?? paginationConstants.directions[0];
 
   const productListResponse: ProductListType = await getProducts(
@@ -30,13 +32,15 @@ export default async function ProductsPage({
     productListResponse?.products?.length > 0;
 
   return (
-    <Product.ProductList
-      products={productListResponse?.products}
-      pageInfo={productListResponse?.pageInfo}
-      searchParams={searchParams}
-      pagesize={size}
-      page={page}
-      tab={tab}
-    />
+    <Suspense fallback={<Loader />}>
+      <Product.ProductList
+        products={productListResponse?.products}
+        pageInfo={productListResponse?.pageInfo}
+        searchParams={searchParams}
+        pagesize={size}
+        page={page}
+        tab={tab}
+      />
+    </Suspense>
   );
 }
