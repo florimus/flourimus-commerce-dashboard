@@ -21,7 +21,7 @@ const ProductStockPriceDetails: FC<ProductStockPriceDetails> = ({
         <div>
           <CardTitle>Stocks and Inventory</CardTitle>
           <CardDescription>
-            Manage Product's stocks and inventory details
+            Manage Products stocks and inventory details
           </CardDescription>
         </div>
         <div className="flex align-middle">

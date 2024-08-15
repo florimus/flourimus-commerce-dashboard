@@ -48,7 +48,10 @@ const ProductWarehouseForm: FC<ProductWarehouseFormProps> = ({
             </div>
           )}
           {Array.from({ length: count }).map((_, index) => (
-            <div className="grid grid-cols-6 gap-10 py-5">
+            <div
+              key={`key_${index + 1}`}
+              className="grid grid-cols-6 gap-10 py-5"
+            >
               <div className="col-span-6 md:col-span-2">
                 {getValues(`warehouses.${index}.name`) || (
                   <Options

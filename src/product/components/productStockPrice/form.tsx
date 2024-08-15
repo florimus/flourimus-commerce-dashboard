@@ -5,7 +5,7 @@ import {
   ProductStockUpdateResponseType,
   WarehouseType
 } from 'core/type';
-import { FC, FormEventHandler, useCallback, useEffect, useState } from 'react';
+import { FC, FormEventHandler, useCallback, useState } from 'react';
 import {
   Control,
   FieldErrors,
@@ -71,10 +71,6 @@ const ProductStockForm: (
   >([]);
   const [isActive, setActive] = useState<boolean>(productStatus);
 
-  useEffect(() => {
-    console.log({ productStatus });
-  }, [productStatus]);
-
   const { append } = useFieldArray({
     control,
     name: 'warehouses'
@@ -105,7 +101,7 @@ const ProductStockForm: (
     if (response) {
       setActive(response.status);
     }
-  }, []);
+  }, [updateProductStatus]);
 
   const submit = async (formdata: FormDataType) => {
     const { warehouses } = formdata || {};
