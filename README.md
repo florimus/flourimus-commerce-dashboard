@@ -1,64 +1,37 @@
-<div align="center"><strong>Next.js 14 Admin Dashboard Template</strong></div>
-<div align="center">Built with the Next.js App Router</div>
-<br />
-<div align="center">
-<a href="https://next-admin-dash.vercel.app/">Demo</a>
-<span> · </span>
-<a href="https://vercel.com/templates/next.js/admin-dashboard-tailwind-postgres-react-nextjs">Clone & Deploy</a>
-<span>
-</div>
+# Flourimus Commerce Dashboard
 
-## Overview
+<h1 align="center">
+  <img src="https://i.ibb.co/k5wWJts/Untitled.png" alt="image">
+</h1>
 
-This is a starter template using the following stack:
+A comprehensive platform for building an E-Commerce platform
 
-- Framework - [Next.js (App Router)](https://nextjs.org)
-- Language - [TypeScript](https://www.typescriptlang.org)
-- Auth - [Auth.js](https://authjs.dev)
-- Database - [Postgres](https://vercel.com/postgres)
-- Deployment - [Vercel](https://vercel.com/docs/concepts/next.js/overview)
-- Styling - [Tailwind CSS](https://tailwindcss.com)
-- Components - [Shadcn UI](https://ui.shadcn.com/)
-- Analytics - [Vercel Analytics](https://vercel.com/analytics)
-- Formatting - [Prettier](https://prettier.io)
+## Introduction
 
-This template uses the new Next.js App Router. This includes support for enhanced layouts, colocation of components, tests, and styles, component-level data fetching, and more.
+We excited to introduce you to **Flourimus Commerce Core**, our new open-source e-commerce backend application. The goal of this project is to provide a scalable, customizable, and user-friendly e-commerce solution that anyone can use, contribute to, and benefit from.
+
+## Vision
+
+In today’s digital age, having an online presence is crucial for any business. However, setting up and maintaining an e-commerce platform can be challenging, especially for small businesses and individual entrepreneurs. Our vision with [Project Name] is to bridge this gap by offering a backend solution that requires minimal configuration while allowing maximum customization. We want to empower businesses of all sizes to go online effortlessly and efficiently.
+
+## Features
+
+- **Scalable Architecture**: Easily handle growth from small businesses to large enterprises.
+- **Minimal Configuration**: Get started quickly with out-of-the-box defaults, yet enjoy the flexibility to configure as needed.
+- **Maximum Customization**: Customize every aspect of the backend to suit your specific needs, from plugins to themes.
+- **Open Source**: Free to use, modify, and distribute, fostering a collaborative community.
+- **Secure and Reliable**: Built with best practices in security and reliability to ensure your business runs smoothly.
+
+
+## Technologies Used
+
+- Next 15.0
+- React 19.0
 
 ## Getting Started
 
-During the deployment, Vercel will prompt you to create a new Postgres database. This will add the necessary environment variables to your project.
+### Prerequisites
 
-Inside the Vercel Postgres dashboard, create a table based on the schema defined in this repository.
+Before running the project, ensure you have the following installed on your machine:
 
-```
-CREATE TYPE status AS ENUM ('active', 'inactive', 'archived');
-
-CREATE TABLE products (
-  id SERIAL PRIMARY KEY,
-  image_url TEXT NOT NULL,
-  name TEXT NOT NULL,
-  status status NOT NULL,
-  price NUMERIC(10, 2) NOT NULL,
-  stock INTEGER NOT NULL,
-  available_at TIMESTAMP NOT NULL
-);
-```
-
-Then, uncomment `app/api/seed.ts` and hit `http://localhost:3000/api/seed` to seed the database with products.
-
-Next, copy the `.env.example` file to `.env` and update the values. Follow the instructions in the `.env.example` file to set up your GitHub OAuth application.
-
-```bash
-npm i -g vercel
-vercel link
-vercel env pull
-```
-
-Finally, run the following commands to start the development server:
-
-```
-pnpm install
-pnpm dev
-```
-
-You should now be able to access the application at http://localhost:3000.
+- Node.js >= 18.0
