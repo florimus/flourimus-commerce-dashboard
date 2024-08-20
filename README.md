@@ -12,7 +12,7 @@ We excited to introduce you to **Flourimus Commerce Core**, our new open-source 
 
 ## Vision
 
-In today’s digital age, having an online presence is crucial for any business. However, setting up and maintaining an e-commerce platform can be challenging, especially for small businesses and individual entrepreneurs. Our vision with [Project Name] is to bridge this gap by offering a backend solution that requires minimal configuration while allowing maximum customization. We want to empower businesses of all sizes to go online effortlessly and efficiently.
+In today’s digital age, having an online presence is crucial for any business. However, setting up and maintaining an e-commerce platform can be challenging, especially for small businesses and individual entrepreneurs. Our vision with Flourimus-commerce is to bridge this gap by offering a backend solution that requires minimal configuration while allowing maximum customization. We want to empower businesses of all sizes to go online effortlessly and efficiently.
 
 ## Features
 
